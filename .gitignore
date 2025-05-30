@@ -1,0 +1,40 @@
+# 忽略所有 target 目录（包括子模块）
+**/target/
+
+# 忽略 IntelliJ 文件
+.idea/
+*.iws
+*.iml
+*.ipr
+
+# 忽略编译文件
+*.class
+
+# 其他规则
+HELP.md
+!.mvn/wrapper/maven-wrapper.jar
+
+# 前端原则
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+owlpot-frontend/node_modules
+owlpot-frontend/.pnp
+.pnp.js
+
+# testing
+owlpot-frontend/coverage
+
+# production
+owlpot-frontend/build
+
+# misc
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*

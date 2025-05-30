@@ -1,0 +1,44 @@
+spring.application.name: OwlpotServer
+# 数据库连接配置
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/tlias
+    username: root
+    password: 622103
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  servlet:
+    multipart:
+      max-file-size: 10MB        # 单个文件最大上传大小,默认1MB
+      max-request-size: 100MB     # 单个请求最大上传大小，默认10MB
+  main:
+    banner-mode: off              # 关闭spring图标
+
+# MyBatis 配置
+mybatis:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl  # 指定日志输出控制台
+    map-underscore-to-camel-case: true                    # 开启驼峰命名映射
+
+# MyBatis-plus 配置
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl  # 指定日志输出控制台
+    map-underscore-to-camel-case: true                    # 开启驼峰命名映射
+  global-config:
+  banner: false                                       # 关闭图标
+  db-config:
+    id-type: assign_id
+    table-perdix: tbl_
+    logic-delete-field: deleted
+    logic-not-delete-value: 0
+    logic-delete-value: 1
+
+# 日志配置
+logging:
+  level:
+    org.springframework.jdbc.support.JdbcTransactionManager: DEBUG # 开启事务日志
+
+# JWT配置
+jwt:
+  secret: "qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqthis_is_a_secure_secret_key_with_at_least_32_bytes_1234567890" # 至少32字节
+  expiration: 3600000  # 1小时（单位：毫秒）
