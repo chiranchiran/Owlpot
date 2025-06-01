@@ -1,38 +1,131 @@
-.App {
-  text-align: center;
+/* src/App.css */
+:root {
+  --primary: #5e72e4;
+  /* 主色调 - 紫色 */
+  --primary-light: #7e8ee3;
+  --primary-lighter: #eaf0ff;
+  --primary-dark: #3247af;
+  /* 浅紫色 */
+  --secondary: #5e72e4;
+  --success: #2dce89;
+  /* 成功色 - 绿色 */
+  --warning: #fb6340;
+  /* 警告色 - 橙色 */
+  --danger: #f5365c;
+  /* 危险色 - 红色 */
+  --info: #11cdef;
+  /* 信息色 - 蓝色 */
+  --background: #f8f9fe;
+  /* 背景色 - 浅灰蓝 */
+  --card-bg: #ffffff;
+  /* 卡片背景 - 白色 */
+  --text: #32325d;
+  /* 主文本 */
+  --text-secondary: #525f7f;
+  /* 次要文本 */
+  --border: #e9ecef;
+  /* 边框色 */
+  --shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
+body {
+  background-color: var(--background);
+  color: var(--text);
   min-height: 100vh;
+}
+
+.app {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  min-height: 100vh;
 }
 
-.App-link {
-  color: #61dafb;
+.card {
+  margin-top: 20px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+@media (min-width: 1201px) {
+  .main-content.collapsed {
+    margin-left: 70px;
+    padding: 15px;
   }
-  to {
-    transform: rotate(360deg);
+
+  .sidebar.collapsed {
+    width: 60px;
   }
+}
+
+@media (max-width: 1200px) {
+  .header-left {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .business-status {
+    order: 2;
+  }
+
+  .current-datetime {
+    order: 3;
+    width: 100%;
+    text-align: left;
+    padding-left: 10px;
+  }
+
+  .overview-container {
+    grid-template-columns: 1fr;
+  }
+
+  .status-tabs {
+    flex-wrap: wrap;
+  }
+
+  .status-tab {
+    min-width: calc(50% - 10px);
+  }
+
+  .main-content.collapsed {
+    margin-left: 50px;
+    padding: 15px;
+  }
+
+  .sidebar.collapsed {
+    width: 60px;
+  }
+}
+
+@media (max-width: 768px) {
+  .section-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .status-tab {
+    min-width: 100%;
+  }
+
+  .actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .overview-cards {
+    flex-direction: column;
+  }
+
+  .main-content.collapsed {
+    margin-left: 50px;
+    padding: 15px;
+  }
+
+  .sidebar.collapsed {
+    width: 60px;
+  }
+
 }

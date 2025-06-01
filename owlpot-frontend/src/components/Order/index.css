@@ -1,0 +1,197 @@
+.order-list {
+  background-color: var(--background);
+  padding: 20px;
+}
+
+.tab-bar {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.tab-button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  color: white;
+  background-color: rgb(157, 169, 235);
+  margin-right: 10px;
+}
+
+.active {
+  background-color: var(--primary);
+}
+
+.search-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.search-bar label {
+  color: var(--text);
+  margin-right: 10px !important;
+}
+
+.search-bar input {
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  width: 200px;
+}
+
+.search-bar button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  color: white;
+  background-color: var(--primary);
+}
+
+.order-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: var(--card-bg);
+  box-shadow: var(--shadow);
+}
+
+.order-table th,
+.order-table td {
+  border: 1px solid var(--border);
+  padding: 10px;
+  text-align: left;
+  color: var(--text);
+}
+
+.order-table th {
+  background-color: var(--primary-lighter);
+  color: var(--text-secondary);
+}
+
+.operation {
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+
+.cancel {
+  color: var(--danger);
+}
+
+.order-detail-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: var(--card-bg);
+  box-shadow: var(--shadow);
+  padding: 20px;
+  border-radius: 4px;
+  width: 400px;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.modal-header h3 {
+  color: var(--text);
+  margin: 0;
+}
+
+.close-button {
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-size: 20px;
+}
+
+.modal-body {
+  margin-bottom: 20px;
+}
+
+.order-info {
+  margin-bottom: 20px;
+}
+
+.info-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.info-item label {
+  width: 80px;
+  color: var(--text-secondary);
+}
+
+.remark {
+  background-color: var(--primary-lighter);
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+.order-items {
+  margin-bottom: 20px;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.item label {
+  width: 80px;
+  color: var(--text-secondary);
+}
+
+.order-costs {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.cost-item {
+  width: 50%;
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.cost-item label {
+  width: 80px;
+  color: var(--text-secondary);
+}
+
+.total {
+  color: var(--danger);
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.return-button {
+  padding: 8px 16px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background-color: var(--card-bg);
+  color: var(--text-secondary);
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.cancel-order-button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  background-color: var(--secondary);
+  color: white;
+  cursor: pointer;
+}

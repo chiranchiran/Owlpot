@@ -1,0 +1,241 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 0;
+  /* background-color: var(--primary); */
+  border-bottom: 1px solid var(--border);
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.sidebar-toggle {
+  background: none;
+  border: none;
+  color: var(--text);
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 5px 10px;
+}
+
+.business-status {
+  display: flex;
+  align-items: center;
+  background-color: rgba(94, 114, 228, 0.1);
+  border-radius: 20px;
+  padding: 5px 15px;
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+
+.status-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-right: 8px;
+}
+
+.status-dot.open {
+  background-color: var(--secondary);
+}
+
+.status-dot.closed {
+  background-color: var(--danger);
+}
+
+.change-status {
+  background: none;
+  border: none;
+  color: var(--primary);
+  margin-left: 10px;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+.current-datetime {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+
+.header-right {
+  position: relative;
+}
+
+.admin-info {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.admin-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: var(--primary);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+  z-index: 100;
+  width: 150px;
+  overflow: hidden;
+}
+
+.dropdown-item {
+  padding: 12px 20px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  font-size: 0.95rem;
+}
+
+.dropdown-item:hover {
+  background-color: rgba(94, 114, 228, 0.1);
+}
+
+/* ===================== 营业状态弹窗样式 ===================== */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.business-modal {
+  background-color: var(--card-bg);
+  border-radius: 12px;
+  width: 500px;
+  padding: 25px;
+  box-shadow: var(--shadow);
+}
+
+.business-modal h3 {
+  font-size: 1.4rem;
+  margin-bottom: 20px;
+  text-align: center;
+  color: var(--text);
+}
+
+.status-option {
+  margin-bottom: 20px;
+  padding: 15px;
+  border-radius: 8px;
+  background-color: rgba(249, 250, 252, 0.8);
+  border: 1px solid var(--border);
+}
+
+.radio-container {
+  display: flex;
+  align-items: flex-start;
+  cursor: pointer;
+}
+
+.radio-container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.checkmark {
+  position: relative;
+  display: inline-block;
+  height: 20px;
+  width: 20px;
+  min-width: 20px;
+  background-color: transparent;
+  border: 2px solid var(--primary);
+  border-radius: 50%;
+  margin-right: 15px;
+  margin-top: 3px;
+}
+
+.radio-container input:checked~.checkmark {
+  background-color: var(--primary);
+}
+
+.radio-container input:checked~.checkmark:after {
+  content: "";
+  position: absolute;
+  display: block;
+  top: 4px;
+  left: 4px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: white;
+}
+
+.option-content {
+  flex: 1;
+}
+
+.option-title {
+  font-weight: bold;
+  font-size: 1.1rem;
+  margin-bottom: 8px;
+  color: var(--text);
+}
+
+.option-description {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.modal-button {
+  padding: 8px 20px;
+  border-radius: 4px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.95rem;
+  border: 1px solid var(--border);
+}
+
+.modal-button.cancel {
+  background-color: transparent;
+  color: var(--text);
+}
+
+.modal-button.cancel:hover {
+  background-color: rgba(249, 250, 252, 0.8);
+}
+
+.modal-button.confirm {
+  background-color: var(--primary);
+  border-color: var(--primary);
+  color: white;
+}
+
+.modal-button.confirm:hover {
+  background-color: var(--primary-light);
+}

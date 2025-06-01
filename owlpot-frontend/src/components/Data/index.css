@@ -1,0 +1,291 @@
+/* 全局变量 */
+/* :root {
+  --background: #f5f7fa;
+  --card-bg: #ffffff;
+  --text: #333333;
+  --text-secondary: #666666;
+  --primary: #1890ff;
+  --primary-lighter: #40a9ff;
+  --secondary: #ff7a45;
+  --secondary-hover: #ff5722;
+  --danger: #f5222d;
+  --shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  --border: #e8e8e8;
+} */
+
+/* 统计主组件样式 */
+.statistics {
+  background-color: var(--background);
+  padding: 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.time-tabs {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.time-tab {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  color: white;
+  background-color: rgb(157, 169, 235);
+  margin-right: 10px;
+}
+
+.active {
+  background-color: var(--primary);
+}
+
+.export-button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  color: white;
+  background-color: var(--secondary);
+  margin-bottom: 20px;
+  margin-left: auto;
+}
+
+.statistic-panels {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+/* 图表卡片通用样式 */
+.revenue-statistics,
+.user-statistics,
+.order-statistics,
+.sales-top10 {
+  background-color: var(--card-bg);
+  padding: 20px;
+  box-shadow: var(--shadow);
+  border-radius: 4px;
+}
+
+.revenue-statistics h3,
+.user-statistics h3,
+.order-statistics h3,
+.sales-top10 h3 {
+  color: var(--text);
+  margin-top: 0;
+}
+
+.revenue-statistics canvas,
+.user-statistics canvas,
+.order-statistics canvas {
+  background-color: white;
+  border-radius: 4px;
+}
+
+/* 订单统计组件样式 */
+.order-metrics {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  color: var(--text-secondary);
+}
+
+.order-metrics span {
+  margin-right: 10px;
+}
+
+/* 销量排名组件样式 */
+.sales-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.rank {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: var(--primary-lighter);
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 10px;
+  font-size: 12px;
+}
+
+.name {
+  width: 100px;
+  margin-right: 10px;
+  color: var(--text);
+}
+
+.progress-bar {
+  flex: 1;
+  height: 10px;
+  background-color: #f0f0f0;
+  border-radius: 5px;
+  margin-right: 10px;
+}
+
+.progress {
+  height: 100%;
+  background-color: var(--primary);
+  border-radius: 5px;
+}
+
+.sales {
+  width: 50px;
+  text-align: right;
+  color: var(--text-secondary);
+}
+
+/* 图表卡片样式 */
+.statistics-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.card-header h3 {
+  font-size: 18px;
+  color: #32325d;
+  font-weight: 600;
+}
+
+.date-range {
+  font-size: 13px;
+  color: #525f7f;
+  background: #eaf0ff;
+  padding: 4px 8px;
+  border-radius: 20px;
+}
+
+.chart-container {
+  position: relative;
+}
+
+/* 营业额高亮样式 */
+.revenue-highlight {
+  text-align: center;
+  margin: 15px 0;
+}
+
+.revenue-value {
+  font-size: 28px;
+  font-weight: 700;
+  color: #5e72e4;
+  margin-bottom: 5px;
+}
+
+.revenue-date {
+  font-size: 14px;
+  color: #8898aa;
+}
+
+.revenue-summary {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
+  padding-top: 15px;
+  border-top: 1px solid #e9ecef;
+}
+
+.summary-item {
+  text-align: center;
+}
+
+.summary-item span:first-child {
+  display: block;
+  font-size: 14px;
+  color: #8898aa;
+  margin-bottom: 5px;
+}
+
+.summary-item .value {
+  font-size: 18px;
+  font-weight: 600;
+  color: #32325d;
+}
+
+.summary-item .positive {
+  color: #2dce89;
+}
+
+/* 用户统计摘要 */
+.user-summary {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
+  padding-top: 15px;
+  border-top: 1px solid #e9ecef;
+}
+
+.user-summary .summary-item {
+  text-align: center;
+}
+
+.user-summary .label {
+  font-size: 14px;
+  color: #8898aa;
+  margin-bottom: 5px;
+}
+
+.user-summary .value {
+  font-size: 18px;
+  font-weight: 600;
+  color: #32325d;
+}
+
+/* 订单统计指标 */
+.order-metrics {
+  text-align: center;
+  margin-top: 0;
+  padding-top: 0 15px;
+  /* border-top: 1px solid #e9ecef; */
+}
+
+.metric {
+  margin-bottom: 6px;
+  margin-right: 10px;
+}
+
+.metric span:first-child {
+  font-size: 14px;
+  color: #8898aa;
+  margin-right: 10px;
+}
+
+.metric .rate {
+  font-size: 20px;
+  font-weight: 700;
+  color: #2dce89;
+}
+
+.metric-detail span {
+  font-size: 16px;
+  color: #32325d;
+  font-weight: 600;
+}
+
+.metric-detail span:nth-child(1) {
+  color: #2dce89;
+}
+
+.metric-detail span:nth-child(2) {
+  margin: 0 5px;
+}

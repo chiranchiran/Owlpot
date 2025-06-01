@@ -19,8 +19,11 @@ HELP.md
 
 # dependencies
 owlpot-frontend/node_modules
+owlpot-frontend/node
+ui
 owlpot-frontend/.pnp
 .pnp.js
+
 
 # testing
 owlpot-frontend/coverage

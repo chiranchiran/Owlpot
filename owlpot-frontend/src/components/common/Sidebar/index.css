@@ -1,0 +1,145 @@
+:root {
+  /* --primary: #2c3e50;
+  --secondary: #3498db;
+  --text: #ffffff;
+  --text-secondary: #ffffff;
+  --border: #34495e;
+  --card-bg: #2c3e50; */
+  --shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  --active-circle-size: 4px;
+  /* 活动选项卡圆圈大小 */
+}
+
+.sidebar-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 200px;
+  z-index: 100;
+  transition: width 0.3s ease;
+  background-color: var(--card-bg);
+  box-shadow: var(--shadow);
+}
+
+.sidebar-container.collapsed {
+  width: 64px;
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  color: var(--text);
+}
+
+/* 头部区域 */
+.sidebar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background-color: var(--primary);
+  border-bottom: 1px solid var(--border);
+  /* 增加头部与菜单间距 */
+}
+
+.sidebar-logo {
+  display: flex;
+  align-items: center;
+}
+
+.logo-icon {
+  font-size: 24px;
+  margin-right: 12px;
+}
+
+.logo-text {
+  font-size: 24px;
+  font-weight: bold;
+  transition: opacity 0.3s ease;
+  color: white;
+}
+
+.sidebar-container.collapsed .logo-text {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* 菜单区域 */
+.sidebar-menu {
+  flex: 1;
+  padding: 30px 10px;
+  /* 调整菜单内边距 */
+  overflow-y: auto;
+  background-color: rgb(184, 194, 232);
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  padding: 12px 15px;
+  /* 增加选项卡上下内边距 */
+  margin-bottom: 15px;
+  /* 增加选项卡间距 */
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  color: var(--text-secondary);
+  border-radius: 10px;
+  /* 圆角设计 */
+  position: relative;
+  /* 活动圆圈定位容器 */
+}
+
+/* 活动选项卡样式（白色圆圈+背景色） */
+.menu-item.active {
+  background-color: var(--primary);
+  /* 浅背景色 */
+  color: white;
+}
+
+
+
+/* 图标样式 */
+.menu-icon {
+  font-size: 20px;
+  /* 增大图标尺寸 */
+  width: 32px;
+  /* 增大图标容器宽度 */
+  text-align: center;
+}
+
+/* 折叠状态下的图标居中 */
+.sidebar-container.collapsed .menu-item {
+  justify-content: center;
+  /* 图标居中 */
+  padding: 18px 10px;
+  /* 调整折叠后内边距 */
+}
+
+/* 文本标签 */
+.menu-label {
+  margin-left: 5px;
+  /* 增大文本与图标的间距 */
+  font-size: 18px;
+  transition: opacity 0.3s ease;
+}
+
+.sidebar-container.collapsed .menu-label {
+  opacity: 0;
+  font-size: 0;
+  pointer-events: none;
+  margin-left: 0;
+  /* 折叠后清除边距 */
+}
+
+
+.sidebar-container.collapsed .sidebar-footer {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.collapsed .logo-text {
+  font-size: 0;
+}

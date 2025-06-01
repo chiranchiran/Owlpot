@@ -1,0 +1,65 @@
+.add-employee {
+  background-color: var(--card-bg);
+  padding: 20px;
+  box-shadow: var(--shadow);
+  border-radius: 4px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  color: var(--text);
+  margin-bottom: 5px;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+}
+
+.gender-radio {
+  display: flex;
+  align-items: center;
+}
+
+.gender-radio input {
+  margin-right: 5px;
+}
+
+.form-buttons {
+  text-align: center;
+}
+
+.cancel-button {
+  padding: 8px 16px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background-color: var(--card-bg);
+  color: var(--text-secondary);
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.save-button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  background-color: var(--primary);
+  color: white;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.save-and-continue-button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  background-color: var(--secondary);
+  color: white;
+  cursor: pointer;
+}

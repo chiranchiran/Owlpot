@@ -1,0 +1,125 @@
+/* src/App.css 添加以下样式 */
+.notification {
+  position: fixed;
+  top: 30px;
+  right: 30px;
+  width: 400px;
+  background-color: var(--card-bg);
+  border-radius: 8px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+  z-index: 1000;
+  animation: slideIn 0.3s ease-out;
+  border-left: 4px solid;
+}
+
+.notification.success {
+  border-left-color: var(--success);
+}
+
+.notification.error {
+  border-left-color: var(--danger);
+}
+
+.notification.warning {
+  border-left-color: var(--warning);
+}
+
+.notification.info {
+  border-left-color: var(--secondary);
+}
+
+.notification-content {
+  display: flex;
+  align-items: center;
+  padding: 18px;
+}
+
+.notification-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 15px;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.notification.success .notification-icon {
+  background-color: rgba(16, 185, 129, 0.2);
+  color: var(--success);
+}
+
+.notification.error .notification-icon {
+  background-color: rgba(239, 68, 68, 0.2);
+  color: var(--danger);
+}
+
+.notification.warning .notification-icon {
+  background-color: rgba(245, 158, 11, 0.2);
+  color: var(--warning);
+}
+
+.notification.info .notification-icon {
+  background-color: rgba(59, 130, 246, 0.2);
+  color: var(--secondary);
+}
+
+.notification-message {
+  flex: 1;
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+.notification-progress {
+  height: 4px;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.notification.progress::after {
+  content: '';
+  display: block;
+  height: 100%;
+  animation: progress 3s linear;
+}
+
+.notification.success .notification-progress::after {
+  background-color: var(--success);
+}
+
+.notification.error .notification-progress::after {
+  background-color: var(--danger);
+}
+
+.notification.warning .notification-progress::after {
+  background-color: var(--warning);
+}
+
+.notification.info .notification-progress::after {
+  background-color: var(--secondary);
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes progress {
+  0% {
+    width: 100%;
+  }
+
+  100% {
+    width: 0;
+  }
+}
