@@ -1,11 +1,26 @@
+import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './App';
+import { QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import api from './api'
 import { BrowserRouter } from 'react-router-dom';
-import './index.css'; // 确保你有相应的CSS样式文件
+import { Provider } from 'react-redux';
+import { queryClient } from './utils/queryClient';
+import store from './redux/store';
+import App from './App';
+import './index.css';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <BrowserRouter>
-    <App />
-  </BrowserRouter>
+  <React.StrictMode>
+    {/* 确保 QueryClientProvider 是顶级 Provider */}
+    <QueryClientProvider client={queryClient}>
+      <BrowserRouter>
+        <Provider store={store}>
+          <App />
+        </Provider>
+      </BrowserRouter>
+      <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>
+  </React.StrictMode>
 );

@@ -102,8 +102,7 @@ const Data = () => {
       // 释放URL对象
       URL.revokeObjectURL(url);
     };
-    console.log(3)
-    debugger;
+
 
   };
   return (

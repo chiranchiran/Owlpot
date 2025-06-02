@@ -16,8 +16,11 @@
         <jjwt.version>0.12.6</jjwt.version>
         <fastjson.version>2.0.30</fastjson.version>
         <mybatis-plus-boot-starter.version>3.5.5</mybatis-plus-boot-starter.version>
-        <mybatis-plus-generator.version>3.5.7</mybatis-plus-generator.version>
+        <mybatis-plus-generator.version>3.5.3.1</mybatis-plus-generator.version>
         <mybatis-spring-boot-starter.version>3.0.4</mybatis-spring-boot-starter.version>
+        <knife4j.version>4.4.0</knife4j.version>
+        <velocity-engine-core.version>2.3</velocity-engine-core.version>
+        <springdoc.version>2.2.0</springdoc.version>
     </properties>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -25,12 +28,30 @@
         <version>3.4.5</version>
         <relativePath/> <!-- 从仓库查找，不依赖本地 -->
     </parent>
+    <dependencies>
+        <dependency>
+            <groupId>com.github.xiaoymin</groupId>
+            <artifactId>knife4j-openapi3-jakarta-spring-boot-starter</artifactId>
+            <version>${knife4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+            <version>${springdoc.version}</version>
+        </dependency>
+    </dependencies>
     <dependencyManagement>
         <dependencies>
             <dependency>
                 <groupId>org.mybatis.spring.boot</groupId>
                 <artifactId>mybatis-spring-boot-starter</artifactId>
                 <version>${mybatis-spring-boot-starter.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+                <optional>true</optional>
             </dependency>
             <dependency>
                 <groupId>io.jsonwebtoken</groupId>
@@ -52,12 +73,17 @@
                 <artifactId>mybatis-plus-generator</artifactId>
                 <version>${mybatis-plus-generator.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.apache.velocity</groupId>
+                <artifactId>velocity-engine-core</artifactId>
+                <version>${velocity-engine-core.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
     <modules>
         <module>owlpot-common</module>
         <module>owlpot-pojo</module>
         <module>owlpot-server</module>
-		<module>owlpot-frontend</module>
+        <module>owlpot-frontend</module>
     </modules>
 </project>

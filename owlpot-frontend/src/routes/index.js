@@ -12,11 +12,13 @@ import Employee from '../components/Employee';
 import AddEmployee from '../components/AddEmployee';
 import Data from '../components/Data';
 import NotFoundPage from '../components/NotFoundPage';
+import { useSelector } from 'react-redux';
 
 // 路由守卫组件
 const ProtectedRoute = ({ children }) => {
-  const isAuthenticated = localStorage.getItem('authToken');
-  return isAuthenticated ? children : <Navigate to="/login" replace />;
+  // 从 Redux 中获取 token
+  const token = useSelector((state) => state.user.token);
+  return token ? children : <Navigate to="/login" replace />;
 };
 
 const RouterConfig = () => {
