@@ -6,8 +6,9 @@ import OrderOverview from './OrderOverview';
 import './index.css'; // 确保你有相应的CSS样式文件
 
 const Dashboard = () => {
+  debugger
   return (
-    <div class="card">
+    <div className="card">
       <TodayData />
       <OrderOverview />
       <DishOverview />

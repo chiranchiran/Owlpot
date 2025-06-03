@@ -12,7 +12,10 @@ import com.owlpot.mapper.EmployeesMapper;
 import com.owlpot.result.PageResult;
 import com.owlpot.service.EmployeesService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.owlpot.utils.PasswordUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
@@ -28,10 +31,13 @@ import java.util.List;
  * @author 池苒
  * @since 2025-06-02
  */
+@Slf4j
 @Service
 public class EmployeesServiceImpl extends ServiceImpl<EmployeesMapper, Employees> implements EmployeesService {
     @Autowired
     private EmployeesMapper employeesMapper;
+    @Autowired
+    private PasswordUtil passwordUtil;
 
     @Override
     public PageResult pageQuery(EmployeePageQueryDTO emp) {
@@ -51,19 +57,18 @@ public class EmployeesServiceImpl extends ServiceImpl<EmployeesMapper, Employees
         String password = employeeLoginDTO.getPassword();
         //1、根据用户名查询数据库中的数据
         QueryWrapper<Employees> wrapper = new QueryWrapper<>();
-        wrapper.select("id","name","role","password","status");
-        wrapper.eq("username", employeeLoginDTO.getUsername());
+        wrapper.select("id", "name", "role", "password", "status");
+        wrapper.eq("username", username);
         Employees employee = employeesMapper.selectOne(wrapper);
         //2、处理各种异常情况（用户名不存在、密码不对、账号被锁定）
         if (employee == null) {
             //账号不存在
             throw new AccountNotFoundException(MessageConstant.ACCOUNT_NOT_FOUND);
         }
-        //密码比对
-        //对前端传过来的明文密码进行md5加密处理
-        password = DigestUtils.md5DigestAsHex(password.getBytes());
-        if (!password.equals(employee.getPassword())) {
-            //密码错误
+        try {
+            boolean flag = passwordUtil.matches(password, employee.getPassword());
+        } catch (Exception e) {
+            log.info("密码比对失败");
             throw new PasswordErrorException(MessageConstant.PASSWORD_ERROR);
         }
         if (employee.getStatus() == StatusConstant.DISABLE) {

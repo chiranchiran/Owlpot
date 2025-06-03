@@ -21,7 +21,7 @@ public class GlobalExceptionHandler {
      * @param ex
      * @return
      */
-    @ExceptionHandler(Exception.class)
+    @ExceptionHandler(BaseException.class)
     public Result exceptionHandler(BaseException ex){
         log.error("异常信息：{}", ex.getMessage());
         return Result.error(ex.getMessage());
@@ -44,5 +44,10 @@ public class GlobalExceptionHandler {
         }else{
             return Result.error(MessageConstant.UNKNOWN_ERROR);
         }
+    }
+    @ExceptionHandler(Exception.class)
+    public Result exceptionHandler(Exception ex){
+        log.error("异常信息：{}", ex.getMessage());
+        return Result.error(ex.getMessage());
     }
 }

@@ -1,0 +1,21 @@
+// src/setupProxy.mjs
+import { createProxyMiddleware } from 'http-proxy-middleware';
+
+const setupProxy = (app) => {
+  app.use(
+    '/api', // 匹配所有 /api 开头的请求
+    createProxyMiddleware({
+      target: 'http://localhost:8080', // 你的后端地址
+      changeOrigin: true,
+      // 添加详细日志
+      onProxyReq: (proxyReq, req, res) => {
+        console.log(`代理请求: ${req.method} ${req.path} -> ${proxyReq.path}`);
+      },
+      onError: (err, req, res) => {
+        console.error('代理错误:', err);
+      }
+    })
+  );
+};
+
+export default setupProxy;

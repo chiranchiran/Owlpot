@@ -6,13 +6,22 @@ import com.baomidou.mybatisplus.generator.config.OutputFile;
 import com.baomidou.mybatisplus.generator.config.rules.DateType;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import com.baomidou.mybatisplus.generator.engine.VelocityTemplateEngine;
+import com.owlpot.utils.PasswordUtil;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Collections;
 
 //@SpringBootTest
 class OwlpotServerApplicationTests {
+
+    @Test
+    void getPassword() {
+        PasswordUtil passwordUtil = new PasswordUtil();
+        String password = passwordUtil.encode("123456");
+        System.out.println("加密后的密码为：" + password);
+    }
     @Test
     public  void getCode() {
         // 使用 FastAutoGenerator 替代旧版 AutoGenerator

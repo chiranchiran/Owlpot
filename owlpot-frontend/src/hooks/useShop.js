@@ -14,11 +14,10 @@ import {
 
 export const useShopStatus = () => {
   const { showNotification } = useNotification();
-
   return useQuery({
     queryKey: ['shopStatus'],
     queryFn: () => getShopStatus().then(res => res.data.data),
-    staleTime: 0,
+    staleTime: 5 * 60 * 1000,
     refetchInterval: 30 * 1000,
     onError: (error) => {
       showNotification(`获取营业状态失败: ${error.message}`, 'error');

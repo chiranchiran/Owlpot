@@ -12,15 +12,12 @@ import './index.css';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
-    {/* 确保 QueryClientProvider 是顶级 Provider */}
-    <QueryClientProvider client={queryClient}>
-      <BrowserRouter>
-        <Provider store={store}>
-          <App />
-        </Provider>
-      </BrowserRouter>
-      <ReactQueryDevtools initialIsOpen={false} />
-    </QueryClientProvider>
-  </React.StrictMode>
+  <QueryClientProvider client={queryClient}>
+    <BrowserRouter>
+      <Provider store={store}>
+        <App />
+      </Provider>
+    </BrowserRouter>
+    <ReactQueryDevtools initialIsOpen={false} />
+  </QueryClientProvider>
 );

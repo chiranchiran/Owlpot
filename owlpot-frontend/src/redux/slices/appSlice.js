@@ -8,10 +8,10 @@ export const DeviceType = {
 const initialState = {
   device: DeviceType.Desktop,
   sidebar: {
-    opened: true,
+    closed: false,
     withoutAnimation: false
   },
-  statusNumber: 0
+  status: 0
 };
 
 const appSlice = createSlice({
@@ -19,20 +19,16 @@ const appSlice = createSlice({
   initialState,
   reducers: {
     toggleSidebar: (state) => {
-      state.sidebar.opened = !state.sidebar.opened;
-    },
-    closeSidebar: (state, action) => {
-      state.sidebar.opened = false;
-      state.sidebar.withoutAnimation = action.payload;
+      state.sidebar.closed = !state.sidebar.closed;
     },
     toggleDevice: (state, action) => {
       state.device = action.payload;
     },
-    setStatusNumber: (state, action) => {
-      state.statusNumber = action.payload;
+    setStatus: (state, action) => {
+      state.status = action.payload;
     }
   }
 });
 
-export const { toggleSidebar, closeSidebar, toggleDevice, setStatusNumber } = appSlice.actions;
+export const { toggleSidebar, toggleDevice, setStatus } = appSlice.actions;
 export default appSlice.reducer;

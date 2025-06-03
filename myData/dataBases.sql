@@ -6,7 +6,7 @@ CREATE TABLE employees (
                            role ENUM('0','1') NOT NULL COMMENT '1为管理员，0为员工',
                            username VARCHAR(16) UNIQUE NOT NULL,
                            name VARCHAR(12) NOT NULL,
-                           password CHAR(60) NOT NULL,
+                           password VARCHAR(255) NOT NULL,
                            phone CHAR(11) NOT NULL,
                            gender ENUM('0','1') NOT NULL COMMENT '0为女，1为男',
                            id_number CHAR(18) UNIQUE,

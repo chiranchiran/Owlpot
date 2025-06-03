@@ -13,12 +13,13 @@ import AddEmployee from '../components/AddEmployee';
 import Data from '../components/Data';
 import NotFoundPage from '../components/NotFoundPage';
 import { useSelector } from 'react-redux';
+import { isAuthenticated } from '../utils/cookies';
 
 // 路由守卫组件
 const ProtectedRoute = ({ children }) => {
   // 从 Redux 中获取 token
-  const token = useSelector((state) => state.user.token);
-  return token ? children : <Navigate to="/login" replace />;
+  const flag = isAuthenticated();
+  return flag ? children : <Navigate to="/login" replace />;
 };
 
 const RouterConfig = () => {

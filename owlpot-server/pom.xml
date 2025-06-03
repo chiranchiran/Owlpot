@@ -73,5 +73,10 @@
             <artifactId>lombok</artifactId>
             <optional>true</optional>
         </dependency>
+        <!--spring-security依赖-->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-crypto</artifactId>
+        </dependency>
     </dependencies>
 </project>

@@ -6,21 +6,13 @@ import Header from './components/common/Header';
 import Sidebar from './components/common/Sidebar';
 import './App.css';
 import RouterConfig from './routes';
-import { useNavigate, useLocation, Outlet } from 'react-router-dom';
-import { removeToken, removeRefreshToken } from './utils/cookies';
+import { useLocation, Outlet } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 function App() {
-  const navigate = useNavigate();
   const location = useLocation();
-  const collapsed = useSelector(state => state.app.sidebar.opened)
+  const collapsed = useSelector(state => state.app.sidebar.closed)
   const isLoginPage = location.pathname === '/login' || location.pathname === '/';
-  const handleLogout = () => {
-    removeToken();
-    removeRefreshToken()
-    navigate('/login'); // 重定向到登录页面
-  };
-
   return (
     <NotificationProvider>
       <div className="app">
@@ -29,9 +21,7 @@ function App() {
           <div className="dashboard">
             <Sidebar />
             <div className={`main-content ${collapsed ? 'collapsed' : ''}`}>
-              <Header
-                onLogout={handleLogout}
-              />
+              <Header />
               <div className="card">
                 <RouterConfig /> {/* 路由内容 */}
                 <Outlet />
@@ -42,7 +32,6 @@ function App() {
         {/* 在登录页面显示登录表单 */}
         {isLoginPage && <LoginPage />}
       </div>
-
     </NotificationProvider>
   );
 }

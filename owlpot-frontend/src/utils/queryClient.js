@@ -8,9 +8,8 @@ export const queryClient = new QueryClient({
       refetchOnWindowFocus: false,
     },
     mutations: {
-
+      staleTime: 5 * 60 * 1000, // 5分钟缓存
+      retry: 1, // 失败时重试1次
     }
   }
 });
-
-// 注意：移除了对 useNotification 的依赖
