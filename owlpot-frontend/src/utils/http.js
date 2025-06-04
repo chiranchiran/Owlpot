@@ -1,6 +1,6 @@
 // src/utils/http.js
 import axios from 'axios';
-import { getToken } from './cookies';
+import { getToken } from './localStorage';
 import { handleApiError } from './errorhandler';
 // 创建 Axios 实例
 export const http = axios.create({
@@ -17,7 +17,6 @@ http.interceptors.request.use(
   (config) => {
     // console.log(`发送请求: ${config.method?.toUpperCase()} ${config.url}`);
     console.log('请求发出:', config.data);
-    debugger;
     // 跳过登录请求的 Token 添加
     if (!config.isLoginRequest) {
       const accessToken = getToken('token');
@@ -55,7 +54,6 @@ http.interceptors.response.use(
 
     // 处理 401 未授权错误
     if (error.response?.status === 401) {
-
       // 如果是登录请求的 401，不跳转（由页面处理错误）
       if (!originalRequest.isLoginRequest) {
 

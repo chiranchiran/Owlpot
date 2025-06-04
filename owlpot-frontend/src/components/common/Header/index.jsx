@@ -2,20 +2,24 @@ import React, { useState, useEffect } from 'react';
 import './index.css'; // 确保你有相应的CSS样式文件
 import { useSelector, useDispatch } from 'react-redux';
 import { toggleSidebar, setStatus, } from '../../../redux/slices/index'; // 导入 Redux actions
-import { useLogout } from '../../../hooks/useAuth';
+import { useLogout, useUpdatePassword } from '../../../hooks/useAuth';
 import { useShopStatus, useUpdateShopStatus } from '../../../hooks/useShop'; // 引入封装的hook
-import { updatePassword } from '../../../api';
+import ChangePwd from './ChangePwd'; //
+import { useNotification } from '../NotificationContext';
 
 const Header = () => {
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const [currentDateTime, setCurrentDateTime] = useState('');
   const [showBusinessModal, setShowBusinessModal] = useState(false);
+  const { showNotification } = useNotification
   const businessStatus = useSelector(state => state.app.status); // 从 Redux 获取营业状态
-  const { id, role, name } = useSelector(state => state.user); // 从 Redux 获取用户信息
+  const { id, role, name, username } = useSelector(state => state.user); // 从 Redux 获取用户信息
   const [selectedStatus, setSelectedStatus] = useState(businessStatus);
   const dispatch = useDispatch();
   const { data: shopStatusData, isLoading: isStatusLoading } = useShopStatus();
   const { mutate: updateStatus, isLoading: isUpdatingStatus } = useUpdateShopStatus();
+  const mutation = useLogout();
+  const [isModalVisible, setModalVisible] = useState(false);
 
   // 更新当前日期时间
   useEffect(() => {
@@ -48,6 +52,8 @@ const Header = () => {
   }, [shopStatusData, dispatch]);
 
   const openBusinessModal = () => {
+    console.log(selectedStatus);
+    console.log(shopStatusData);
     setShowBusinessModal(true);
   };
 
@@ -59,17 +65,13 @@ const Header = () => {
     updateStatus(selectedStatus);
     closeBusinessModal();
   };
-
-  const changePwd = () => {
-    // 这里可以添加修改密码的逻辑
-    // updatePassword(id, { id, oldPwd, newPwd })
-    console.log('修改密码');
+  const logout = () => {
+    mutation.mutate();
   }
-
   return (
     <div className="header">
       <div className="header-left">
-        <button className="sidebar-toggle" onClick={toggleSidebar}>
+        <button className="sidebar-toggle" onClick={() => dispatch(toggleSidebar())}>
           ☰
         </button>
         <div className="business-status">
@@ -100,13 +102,13 @@ const Header = () => {
 
         {dropdownVisible && (
           <div className="dropdown-menu">
-            <div className="dropdown-item" onClick={changePwd}>修改密码</div>
-            <div className="dropdown-item" onClick={useLogout}>退出登录</div>
+            <div className="dropdown-item" onClick={() => setModalVisible(true)}>修改密码</div>
+            <div className="dropdown-item" onClick={logout}>退出登录</div>
           </div>
         )}
       </div>
 
-      {/* 营业状态设置弹窗 - 严格按照图片设计 */}
+      {/* 营业状态设置弹窗*/}
       {showBusinessModal && (
         <div className="modal-overlay">
           <div className="business-modal">
@@ -117,8 +119,11 @@ const Header = () => {
                 <input
                   type="radio"
                   name="business-status"
-                  checked={selectedStatus === 1}
-                  onChange={() => setSelectedStatus(1)}
+                  checked={selectedStatus !== 0}
+                  onChange={() => {
+                    console.log(selectedStatus);
+                    setSelectedStatus(1)
+                  }}
                 />
                 <span className="checkmark"></span>
                 <div className="option-content">
@@ -157,6 +162,8 @@ const Header = () => {
           </div>
         </div>
       )}
+      { /* 修改密码弹窗  */}
+      {isModalVisible && <ChangePwd onClose={() => setModalVisible(false)} title="修改密码" id={id} username={username} />}
     </div>
   );
 };

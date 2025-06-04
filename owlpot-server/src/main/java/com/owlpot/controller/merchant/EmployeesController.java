@@ -2,6 +2,7 @@ package com.owlpot.controller.merchant;
 
 import com.owlpot.constant.PasswordConstant;
 import com.owlpot.constant.StatusConstant;
+import com.owlpot.dto.EmployeeChangePwdDTO;
 import com.owlpot.dto.EmployeeLoginDTO;
 import com.owlpot.dto.EmployeePageQueryDTO;
 import com.owlpot.entity.Employees;
@@ -109,6 +110,15 @@ public class EmployeesController {
     public Result updateEmp(@RequestBody Employees employee){
         log.info("编辑员工信息：{}", employee);
         employeesService.updateById(employee);
+        return Result.success();
+    }
+    /**
+     * 修改员工密码
+     */
+    @PutMapping("/{id}/password")
+    public Result updateEmpPassword(@PathVariable Long id, @RequestBody EmployeeChangePwdDTO employeeChangePwdDTO) throws AccountLockedException, AccountNotFoundException {
+        log.info("修改员工密码：{}", employeeChangePwdDTO);
+        employeesService.updateEmpPassword(id, employeeChangePwdDTO);
         return Result.success();
     }
 }

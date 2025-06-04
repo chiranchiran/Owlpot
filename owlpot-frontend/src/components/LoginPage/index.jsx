@@ -84,6 +84,7 @@ const LoginPage = () => {
             onChange={(e) => setUsername(e.target.value)}
             placeholder="请输入用户名"
             className="input-field"
+            autoComplete="username"
           />
         </div>
 
@@ -96,13 +97,14 @@ const LoginPage = () => {
             onChange={(e) => setPassword(e.target.value)}
             placeholder="请输入密码"
             className="input-field"
+            autoComplete="current-password"
           />
         </div>
 
         <button
           type="submit"
-          className={`login-button ${isLoginLoading || isLoading ? 'loading' : ''}`}
-          disabled={isLoginLoading || isLoading}
+          className={`login-button ${isLoginLoading || isLoading || loginAttempts === 0 ? 'loading' : ''}`}
+          disabled={isLoginLoading || isLoading || loginAttempts === 0}
         >
           {isLoginLoading || isLoading ? (
             <div className="spinner">登录中</div>

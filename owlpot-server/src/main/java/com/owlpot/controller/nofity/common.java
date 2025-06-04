@@ -11,8 +11,8 @@ public class common {
      *
      * @return
      */
-    @PostMapping("/logout")
-    public Result<String> logout() {
+    @PostMapping("/api/logout")
+    public Result logout() {
         return Result.success();
     }
 }

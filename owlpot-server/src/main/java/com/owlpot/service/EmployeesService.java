@@ -1,5 +1,6 @@
 package com.owlpot.service;
 
+import com.owlpot.dto.EmployeeChangePwdDTO;
 import com.owlpot.dto.EmployeeLoginDTO;
 import com.owlpot.dto.EmployeePageQueryDTO;
 import com.owlpot.entity.Employees;
@@ -24,4 +25,6 @@ public interface EmployeesService extends IService<Employees> {
     PageResult pageQuery(EmployeePageQueryDTO employeePageQueryDTO);
 
     Employees login(EmployeeLoginDTO employeeLoginDTO) throws AccountNotFoundException, AccountLockedException;
+
+    void updateEmpPassword(Long id, EmployeeChangePwdDTO employeeChangePwdDTO) throws AccountNotFoundException, AccountLockedException;
 }

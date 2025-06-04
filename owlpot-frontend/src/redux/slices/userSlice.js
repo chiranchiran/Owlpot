@@ -4,7 +4,8 @@ const initialState = {
   id: '',
   token: '',
   role: '',
-  name: ''
+  name: '',
+  username: ''
 };
 
 const userSlice = createSlice({
@@ -13,16 +14,18 @@ const userSlice = createSlice({
   reducers: {
     // 新增同步action
     loginUser: (state, action) => {
-      state.id = action.payload.id; // 假设登录时会返回用户ID
+      state.id = action.payload.id;
       state.token = action.payload.token;
       state.role = action.payload.role;
       state.name = action.payload.name;
+      state.username = action.payload.username;
     },
-    logoutOut: (state) => {
+    logoutUser: (state) => {
       state.id = '';
       state.token = '';
       state.role = '';
       state.name = '';
+      state.username = '';
     }
   },
   // 移除extraReducers（不再需要）

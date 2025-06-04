@@ -1,4 +1,5 @@
 // src/hooks/useShop.js
+import { useDispatch } from 'react-redux';
 import {
   useQuery,
   useMutation,
@@ -11,33 +12,35 @@ import {
   getMessageCount,
   getShopInfo
 } from '../api/shop';
+import { setStatus } from '../redux/slices/appSlice';
 
 export const useShopStatus = () => {
-  const { showNotification } = useNotification();
+  const dishpatch = useDispatch();
   return useQuery({
     queryKey: ['shopStatus'],
-    queryFn: () => getShopStatus().then(res => res.data.data),
-    staleTime: 5 * 60 * 1000,
-    refetchInterval: 30 * 1000,
-    onError: (error) => {
-      showNotification(`获取营业状态失败: ${error.message}`, 'error');
+    queryFn: async () => {
+      const res = await getShopStatus()
+      if (res.code === 0) {
+        throw new Error(res.msg || '获取营业状态失败');
+      }
+      dishpatch(setStatus(res.data));
+      return res.data
     }
   });
 };
 
 export const useUpdateShopStatus = () => {
-  const queryClient = useQueryClient();
   const { showNotification } = useNotification();
-
+  const dishpatch = useDispatch();
   return useMutation({
     mutationFn: updateShopStatus,
-    onSuccess: (_, status) => {
-      queryClient.setQueryData(['shopStatus'], () => ({ status }));
+    onSuccess: (res, status) => {
+      if (res.code === 0) {
+        throw new Error(res.msg || '更新营业状态失败');
+      }
+      dishpatch(setStatus(status));
       showNotification(`营业状态已更新`, 'success');
     },
-    onError: (error) => {
-      showNotification(`更新营业状态失败: ${error.message}`, 'error');
-    }
   });
 };
 
@@ -49,9 +52,6 @@ export const useMessageCount = () => {
     queryFn: () => getMessageCount().then(res => res.data.data),
     staleTime: 1 * 60 * 1000,
     refetchInterval: 2 * 60 * 1000,
-    onError: (error) => {
-      showNotification(`获取消息数量失败: ${error.message}`, 'error');
-    }
   });
 };
 
@@ -62,8 +62,5 @@ export const useShopInfo = () => {
     queryKey: ['shopInfo'],
     queryFn: () => getShopInfo().then(res => res.data.data),
     staleTime: 24 * 60 * 60 * 1000,
-    onError: (error) => {
-      showNotification(`获取商家信息失败: ${error.message}`, 'error');
-    }
   });
 };

@@ -11,7 +11,8 @@ const initialState = {
     closed: false,
     withoutAnimation: false
   },
-  status: 0
+  status: 0,
+  shopName: '夜枭时光'
 };
 
 const appSlice = createSlice({

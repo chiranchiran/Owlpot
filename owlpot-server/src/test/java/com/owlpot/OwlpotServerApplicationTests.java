@@ -6,15 +6,29 @@ import com.baomidou.mybatisplus.generator.config.OutputFile;
 import com.baomidou.mybatisplus.generator.config.rules.DateType;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import com.baomidou.mybatisplus.generator.engine.VelocityTemplateEngine;
+import com.owlpot.dto.EmployeeChangePwdDTO;
+import com.owlpot.entity.Employees;
+import com.owlpot.service.EmployeesService;
+import com.owlpot.service.impl.EmployeesServiceImpl;
 import com.owlpot.utils.PasswordUtil;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import javax.security.auth.login.AccountLockedException;
+import javax.security.auth.login.AccountNotFoundException;
 import java.util.Collections;
 
-//@SpringBootTest
+@SpringBootTest
 class OwlpotServerApplicationTests {
+    @Autowired
+    EmployeesService employeesService;
+
+    @Test
+    void changePassword() throws AccountLockedException, AccountNotFoundException {
+        EmployeeChangePwdDTO employeeChangePwdDTO = new EmployeeChangePwdDTO(4L, "123456", "123456");
+        employeesService.updateEmpPassword(employeeChangePwdDTO.getId(), employeeChangePwdDTO);
+    }
 
     @Test
     void getPassword() {
@@ -22,8 +36,9 @@ class OwlpotServerApplicationTests {
         String password = passwordUtil.encode("123456");
         System.out.println("加密后的密码为：" + password);
     }
-    @Test
-    public  void getCode() {
+
+//    @Test
+    public void getCode() {
         // 使用 FastAutoGenerator 替代旧版 AutoGenerator
         FastAutoGenerator.create(
                         "jdbc:mysql://localhost:3306/owlpot",
@@ -52,7 +67,7 @@ class OwlpotServerApplicationTests {
                 })
                 // 策略配置
                 .strategyConfig(builder -> {
-                    builder.addInclude("regions", "address_book", "orders","address_book","categories","dish_flavors","dishes","employees","orders_food","pay_methods","setmeals","setmeal_dish","shopping_cart") // 包含的表
+                    builder.addInclude("regions", "address_book", "orders", "address_book", "categories", "dish_flavors", "dishes", "employees", "orders_food", "pay_methods", "setmeals", "setmeal_dish", "shopping_cart") // 包含的表
                             .entityBuilder() // 实体策略
                             .enableLombok() // 启用 Lombok
                             .naming(NamingStrategy.underline_to_camel) // 表名转驼峰
@@ -73,6 +88,7 @@ class OwlpotServerApplicationTests {
                 // 执行生成
                 .execute();
     }
+
     @Test
     void contextLoads() {
     }

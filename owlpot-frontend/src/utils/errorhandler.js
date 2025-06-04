@@ -1,3 +1,5 @@
+import { useNotification } from '../components/common/NotificationContext';
+
 // 错误代码映射表
 const ERROR_CODES = {
   12000: '用户不存在，请重新输入！',
@@ -50,3 +52,8 @@ export const ERROR_TYPES = {
   TIMEOUT_ERROR: 'TIMEOUT_ERROR',
   AUTH_ERROR: 'AUTH_ERROR',
 };
+export const showError = error => {
+  const message = handleApiError(error);
+  const { showNotification } = useNotification();
+  showNotification(message, 'error');
+}

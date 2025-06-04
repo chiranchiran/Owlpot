@@ -13,7 +13,7 @@ import AddEmployee from '../components/AddEmployee';
 import Data from '../components/Data';
 import NotFoundPage from '../components/NotFoundPage';
 import { useSelector } from 'react-redux';
-import { isAuthenticated } from '../utils/cookies';
+import { isAuthenticated } from '../utils/localStorage';
 
 // 路由守卫组件
 const ProtectedRoute = ({ children }) => {

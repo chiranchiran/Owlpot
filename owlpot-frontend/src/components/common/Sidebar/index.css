@@ -19,6 +19,8 @@
   z-index: 100;
   transition: width 0.3s ease;
   background-color: var(--card-bg);
+  transition: width 0.3s ease;
+  /* 这里控制宽度变化的过渡动画 */
   box-shadow: var(--shadow);
 }
 
@@ -97,6 +99,7 @@
   background-color: var(--primary);
   /* 浅背景色 */
   color: white;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 
@@ -142,4 +145,31 @@
 
 .collapsed .logo-text {
   font-size: 0;
+}
+
+/* 活动标签指示器 */
+.menu-item.active::after {
+  content: '';
+  position: absolute;
+  right: 26px;
+  top: 53%;
+  transform: translateY(-50%);
+  width: 8px;
+  height: 8px;
+  background-color: white;
+  border-radius: 50%;
+  animation: pulse 1s infinite alternate;
+  /* 添加动画效果 */
+}
+
+@keyframes pulse {
+  from {
+    transform: translateY(-50%) scale(1);
+    opacity: 0.5;
+  }
+
+  to {
+    transform: translateY(-50%) scale(1.2);
+    opacity: 1;
+  }
 }

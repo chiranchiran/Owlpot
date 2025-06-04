@@ -13,16 +13,30 @@ import {
   updateEmployee
 } from '../api/employee';
 
-export const useEmployees = (params = {}) => {
+export const useEmployees = () => {
   const { showNotification } = useNotification();
-
+  const queryClient = useQueryClient();
   return useQuery({
-    queryKey: ['employees', params],
-    queryFn: () => getEmployees(params).then(res => res.data.data),
-    staleTime: 5 * 60 * 1000,
-    onError: (error) => {
-      showNotification(`获取员工列表失败: ${error.message}`, 'error');
-    }
+    queryKey: ['employees', { page: pageParam, pageSize }],
+    queryFn: async ({ queryKey }) => {
+      const { page, pageSize } = queryKey[1];
+      const res = await getEmployees({ page, pageSize });
+
+      if (res.code !== 0) {
+        throw new Error(res.msg || '获取员工列表失败');
+      }
+
+      // 不需要在这里设置缓存，useQuery 会自动处理
+      showNotification('员工列表获取成功', 'success');
+      return res.data;
+    },
+    getNextPageParam: (lastPage) => {
+      // 根据实际接口返回的数据结构判断是否有下一页
+      // 这里假设接口返回 totalPages 或 hasNextPage 字段
+      const nextPage = pageParam + 1;
+      return lastPage.totalPages >= nextPage ? nextPage : undefined;
+    },
+    keepPreviousData: true, // 防止翻页时UI闪烁
   });
 };
 

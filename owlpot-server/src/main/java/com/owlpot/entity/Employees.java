@@ -7,10 +7,7 @@ import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import java.util.Date;
-
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
@@ -19,12 +16,10 @@ import lombok.Setter;
  * </p>
  *
  * @author 池苒
- * @since 2025-06-02
+ * @since 2025-06-04
  */
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
 @TableName("employees")
 public class Employees implements Serializable {
 
@@ -55,7 +50,7 @@ public class Employees implements Serializable {
      * 0为女，1为男
      */
     @TableField("gender")
-    private Integer gender;
+    private Byte gender;
 
     @TableField("id_number")
     private String idNumber;
@@ -64,7 +59,7 @@ public class Employees implements Serializable {
      * 1为启用，0为禁用
      */
     @TableField("status")
-    private Integer status;
+    private Byte status;
 
     @TableField("create_time")
     private Date createTime;
@@ -77,5 +72,5 @@ public class Employees implements Serializable {
      */
     @TableField("deleted")
     @TableLogic
-    private Integer deleted;
+    private Byte deleted;
 }

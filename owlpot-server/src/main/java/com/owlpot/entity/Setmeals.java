@@ -6,65 +6,49 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
-
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
  * <p>
- * 员工表
+ * 套餐表
  * </p>
  *
  * @author 池苒
- * @since 2025-06-02
+ * @since 2025-06-04
  */
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
-@TableName("employees")
-public class Employees implements Serializable {
+@TableName("setmeals")
+public class Setmeals implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
-    /**
-     * 1为管理员，0为员工
-     */
-    @TableField("role")
-    private Integer role;
-
-    @TableField("username")
-    private String username;
-
     @TableField("name")
     private String name;
 
-    @TableField("password")
-    private String password;
+    @TableField("category_id")
+    private Long categoryId;
 
-    @TableField("phone")
-    private String phone;
+    @TableField("price")
+    private BigDecimal price;
 
-    /**
-     * 0为女，1为男
-     */
-    @TableField("gender")
-    private Integer gender;
+    @TableField("image")
+    private String image;
 
-    @TableField("id_number")
-    private String idNumber;
+    @TableField("description")
+    private String description;
 
     /**
-     * 1为启用，0为禁用
+     * 0停售，1启售
      */
     @TableField("status")
-    private Integer status;
+    private String status;
 
     @TableField("create_time")
     private Date createTime;
@@ -77,5 +61,5 @@ public class Employees implements Serializable {
      */
     @TableField("deleted")
     @TableLogic
-    private Integer deleted;
+    private String deleted;
 }

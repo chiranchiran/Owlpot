@@ -11,6 +11,6 @@ export const logout = () => {
 
 
 // 修改密码
-export const updatePassword = (id, passwordData) => {
-  return http.put(`/employees/${id}`, passwordData);
+export const updatePassword = (params) => {
+  return http.put(`/employees/${params.id}/password`, params);
 };

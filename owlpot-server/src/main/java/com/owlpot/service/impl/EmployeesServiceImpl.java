@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.owlpot.constant.MessageConstant;
 import com.owlpot.constant.StatusConstant;
+import com.owlpot.dto.EmployeeChangePwdDTO;
 import com.owlpot.dto.EmployeeLoginDTO;
 import com.owlpot.dto.EmployeePageQueryDTO;
 import com.owlpot.entity.Employees;
@@ -71,11 +72,34 @@ public class EmployeesServiceImpl extends ServiceImpl<EmployeesMapper, Employees
             log.info("密码比对失败");
             throw new PasswordErrorException(MessageConstant.PASSWORD_ERROR);
         }
-        if (employee.getStatus() == StatusConstant.DISABLE) {
+        if (employee.getStatus()== StatusConstant.DISABLE) {
             //账号被锁定
             throw new AccountLockedException(MessageConstant.ACCOUNT_LOCKED);
         }
         //3、返回实体对象
         return employee;
+    }
+
+    @Override
+    public void updateEmpPassword(Long id, EmployeeChangePwdDTO employeeChangePwdDTO) throws AccountNotFoundException, AccountLockedException {
+        QueryWrapper<Employees> wrapper = new QueryWrapper<>();
+        wrapper.eq("id", id);
+        Employees employee = employeesMapper.selectOne(wrapper);
+        if (employee == null) {
+            throw new AccountNotFoundException(MessageConstant.ACCOUNT_NOT_FOUND);
+        }
+        if (employee.getStatus() == StatusConstant.DISABLE) {
+            throw new AccountLockedException(MessageConstant.ACCOUNT_LOCKED);
+        }
+        boolean flag = passwordUtil.matches(employeeChangePwdDTO.getOldPassword(), employee.getPassword());
+        if (!flag) {
+            throw new PasswordErrorException(MessageConstant.PASSWORD_ERROR);
+        }
+        Employees employees = new Employees();
+        employees.setId(id);
+        String changePwd = passwordUtil.encode(employeeChangePwdDTO.getNewPassword());
+        employees.setPassword(changePwd);
+        employeesMapper.updateById(employees);
+        log.info("密码修改成功");
     }
 }

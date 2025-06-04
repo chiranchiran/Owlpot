@@ -7,64 +7,44 @@ import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import java.util.Date;
-
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
  * <p>
- * 员工表
+ * 分类表
  * </p>
  *
  * @author 池苒
- * @since 2025-06-02
+ * @since 2025-06-04
  */
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
-@TableName("employees")
-public class Employees implements Serializable {
+@TableName("categories")
+public class Categories implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
-    /**
-     * 1为管理员，0为员工
-     */
-    @TableField("role")
-    private Integer role;
-
-    @TableField("username")
-    private String username;
+    @TableField("order_number")
+    private Integer orderNumber;
 
     @TableField("name")
     private String name;
 
-    @TableField("password")
-    private String password;
-
-    @TableField("phone")
-    private String phone;
-
     /**
-     * 0为女，1为男
+     * 0是菜品，1是套餐
      */
-    @TableField("gender")
-    private Integer gender;
-
-    @TableField("id_number")
-    private String idNumber;
+    @TableField("type")
+    private String type;
 
     /**
      * 1为启用，0为禁用
      */
     @TableField("status")
-    private Integer status;
+    private String status;
 
     @TableField("create_time")
     private Date createTime;
@@ -77,5 +57,5 @@ public class Employees implements Serializable {
      */
     @TableField("deleted")
     @TableLogic
-    private Integer deleted;
+    private String deleted;
 }

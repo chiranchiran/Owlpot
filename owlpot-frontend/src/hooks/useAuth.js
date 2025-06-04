@@ -5,10 +5,9 @@ import { login, logout, updatePassword } from '../api/auth';
 import { loginUser, logoutUser } from '../redux/slices/userSlice';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { handleApiError } from '../utils/errorhandler';
-import { removeToken, setToken } from '../utils/cookies';
+import { removeToken, setToken } from '../utils/localStorage';
+
 export const useLogin = () => {
-  const queryClient = useQueryClient();
   const { showNotification } = useNotification();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -19,14 +18,9 @@ export const useLogin = () => {
         throw new Error(data.msg || '登录失败');
       }
       dispatch(loginUser(data.data))
-      queryClient.setQueryData(['user'], data.data);
       setToken(data.data.token);
       showNotification('登录成功', 'success');
       navigate('/dashboard')
-    },
-    onError: (error) => {
-      const message = handleApiError(error);
-      showNotification(message || '登录失败，请重试');
     }
   });
 };
@@ -36,21 +30,15 @@ export const useLogout = () => {
   const navigate = useNavigate();
   const { showNotification } = useNotification();
   const dispatch = useDispatch();
-  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: logout,
     onSuccess: () => {
       dispatch(logoutUser())
       removeToken();
-      // 清除缓存数据
-      queryClient.clear();
-      showNotification('已成功登出', 'success');
+      showNotification('已成功退出', 'success');
       navigate('/login')
-    },
-    onError: (error) => {
-      showNotification(`登出失败: ${error.message}`, 'error');
     }
-  });
+  })
 };
 
 export const useUpdatePassword = () => {
@@ -58,12 +46,12 @@ export const useUpdatePassword = () => {
 
   return useMutation({
     mutationFn: updatePassword,
-    onSuccess: () => {
-      showNotification('密码更新成功', 'success');
+    onSuccess: (data) => {
+      if (data.code === 0) {
+        throw new Error(data.msg || '密码修改失败');
+      }
+      showNotification('密码修改成功', 'success');
     },
-    onError: (error) => {
-      showNotification(`密码更新失败: ${error.message}`, 'error');
-    }
   });
 };
 

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './index.css';
+import 'font-awesome/css/font-awesome.min.css';
 import RevenueStatistics from './RevenueStatistics';
 import UserStatistics from './UserStatistics';
 import OrderStatistics from './OrderStatistics';
