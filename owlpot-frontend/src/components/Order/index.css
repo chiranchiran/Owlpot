@@ -1,6 +1,6 @@
 .order-list {
   background-color: var(--background);
-  padding: 20px;
+  padding: 0 20px;
 }
 
 .tab-bar {
@@ -14,8 +14,9 @@
   border-radius: 4px;
   cursor: pointer;
   color: white;
-  background-color: rgb(157, 169, 235);
+  background-color: rgb(168, 178, 232);
   margin-right: 10px;
+  font-size: 16px ! important;
 }
 
 .active {
@@ -31,7 +32,7 @@
 
 .search-bar label {
   color: var(--text);
-  margin-right: 10px !important;
+  margin-right: 8px !important;
 }
 
 .search-bar input {
@@ -194,4 +195,8 @@
   background-color: var(--secondary);
   color: white;
   cursor: pointer;
+}
+
+.date-input {
+  margin-right: 2px ! important;
 }

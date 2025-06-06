@@ -47,5 +47,5 @@ public class OrdersFood implements Serializable {
      */
     @TableField("deleted")
     @TableLogic
-    private String deleted;
+    private Integer deleted;
 }

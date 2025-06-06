@@ -2,7 +2,33 @@
   background-color: var(--card-bg);
   padding: 20px;
   box-shadow: var(--shadow);
-  border-radius: 4px;
+  border-radius: 9px;
+}
+
+.add-employee-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+}
+
+.add-employee-header h3 {
+  color: var(--text);
+  margin: 0;
+}
+
+.back-button {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: var(--text-secondary);
+}
+
+.back-button:hover {
+  color: var(--primary);
 }
 
 .form-group {
@@ -20,19 +46,58 @@
   padding: 8px 12px;
   border: 1px solid var(--border);
   border-radius: 4px;
+  box-sizing: border-box;
 }
 
-.gender-radio {
+.form-group input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px var(--primary-lighter);
+}
+
+/* .gender-radio {
   display: flex;
   align-items: center;
-}
+  flex-wrap: nowrap;
+} */
 
 .gender-radio input {
-  margin-right: 5px;
+
+  margin-left: 8px;
+  margin-right: 10px;
+}
+
+/* .gender-radio label {
+  display: inline-flex;
+  align-items: center;
+  margin-right: 15px;
+} */
+.gender-radio {
+  margin-bottom: -12px;
+  display: flex;
+  /* 开启 Flex 布局 */
+  align-items: center;
+  flex-wrap: wrap;
+  /* 允许子元素换行 */
+  gap: 10px;
+  /* 添加间距 */
+}
+
+.gender-radio label {
+  display: flex;
+  /* 让 label 内部元素横向排列 */
+  align-items: center;
+  margin-right: 15px;
+  /* 可选：调整标签间右侧间距 */
+  white-space: nowrap;
+  /* 防止标签文本换行 */
 }
 
 .form-buttons {
-  text-align: center;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  font-size: 16px !important;
 }
 
 .cancel-button {
@@ -42,7 +107,13 @@
   background-color: var(--card-bg);
   color: var(--text-secondary);
   cursor: pointer;
-  margin-right: 10px;
+  font-size: 15px !important;
+}
+
+.cancel-button:hover {
+  background-color: var(--primary-lighter);
+  color: var(--primary);
+  border-color: var(--primary);
 }
 
 .save-button {
@@ -52,14 +123,33 @@
   background-color: var(--primary);
   color: white;
   cursor: pointer;
-  margin-right: 10px;
+  font-size: 15px !important;
+}
+
+.save-button:hover {
+  background-color: var(--primary-dark);
 }
 
 .save-and-continue-button {
   padding: 8px 16px;
   border: none;
   border-radius: 4px;
-  background-color: var(--secondary);
+  background-color: var(--primary-light);
   color: white;
   cursor: pointer;
+  font-size: 15px !important;
 }
+
+.save-and-continue-button:hover {
+  background-color: var(--primary-dark);
+}
+
+/* 移除模态框相关样式 */
+/* .modal-overlay,
+.add-employee-modal,
+.modal-header,
+.close-button,
+.modal-body,
+.modal-footer {
+  display: none;
+} */

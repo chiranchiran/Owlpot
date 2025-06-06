@@ -1,8 +1,8 @@
 import http from '../utils/http';
 
 // 查询分类列表
-export const getCategories = (params = {}) => {
-  return http.get('/categories', { params });
+export const getCategories = (params) => {
+  return http.get('/categories', params);
 };
 
 // 查询单个分类
@@ -26,6 +26,6 @@ export const addCategory = (categoryData) => {
 };
 
 // 更新分类
-export const updateCategory = (id, categoryData) => {
-  return http.put(`/categories/${id}`, categoryData);
+export const updateCategory = (categoryData) => {
+  return http.put(`/categories/${categoryData.id}`, categoryData);
 };

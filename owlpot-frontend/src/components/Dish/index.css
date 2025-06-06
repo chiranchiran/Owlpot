@@ -1,6 +1,6 @@
 .dish-management {
   background-color: var(--background);
-  padding: 20px;
+  padding: 0 20px;
 }
 
 .search-bar {
@@ -11,15 +11,15 @@
 }
 
 #searchName2 {
-  margin-left: -5.5rem;
+  margin-left: -6rem;
 }
 
 #searchCategory {
-  margin-left: -5.5rem;
+  margin-left: -6rem;
 }
 
 #searchStatus {
-  margin-left: -5.5rem;
+  margin-left: -6rem;
 }
 
 .dish1 {

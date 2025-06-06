@@ -4,7 +4,7 @@ import { useNotification } from '../components/common/NotificationContext';
 import { login, logout, updatePassword } from '../api/auth';
 import { loginUser, logoutUser } from '../redux/slices/userSlice';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { removeToken, setToken } from '../utils/localStorage';
 
 export const useLogin = () => {
@@ -54,7 +54,10 @@ export const useUpdatePassword = () => {
     },
   });
 };
-
+export const useAuthenticated = () => {
+  const token = useSelector(state => state.user.token)
+  return token !== null
+};
 // // 获取当前登录用户
 // export const useCurrentUser = () => {
 //   return useQuery({

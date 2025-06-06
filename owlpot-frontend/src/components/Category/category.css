@@ -1,6 +1,6 @@
 .category-list {
   background-color: var(--background);
-  padding: 20px;
+  padding: 0 20px;
 }
 
 .search-bar {
@@ -17,7 +17,11 @@
 
 #searchName1,
 #searchType1 {
-  margin-left: -9rem;
+  margin-left: -11.5rem;
+}
+
+#searchName {
+  margin-left: -11.5rem;
 }
 
 .search-bar input {
@@ -25,13 +29,15 @@
   border: 1px solid var(--border);
   border-radius: 4px;
   width: 200px;
+  font-size: 16px;
 }
 
 .search-bar select {
-  padding: 8px 12px;
+  padding: 7px 12px;
   border: 1px solid var(--border);
   border-radius: 4px;
   width: 150px;
+  font-size: 16px;
 }
 
 .search-bar button {
@@ -69,12 +75,22 @@
   box-shadow: var(--shadow);
 }
 
+.management {
+  border-radius: 8px;
+}
+
+
 .category-table th,
 .category-table td {
   border: 1px solid var(--border);
   padding: 10px;
   text-align: left;
   color: var(--text);
+}
+
+.management th,
+td {
+  padding: 20px ! important;
 }
 
 .category-table th {
@@ -180,7 +196,7 @@
   padding: 8px 16px;
   border: none;
   border-radius: 4px;
-  background-color: var(--secondary);
+  background-color: var(--primary-light);
   color: white;
   cursor: pointer;
 }

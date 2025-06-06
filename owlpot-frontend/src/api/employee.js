@@ -2,7 +2,7 @@ import http from '../utils/http';
 
 // 查询员工列表
 export const getEmployees = (params = {}) => {
-  return http.get('/employees', { params });
+  return http.get('/employees', params);
 };
 
 // 查询单个员工
@@ -12,7 +12,7 @@ export const getEmployeeById = (id) => {
 
 // 删除员工
 export const deleteEmployee = (id) => {
-  return http.delete(`/employee/${id}`);
+  return http.delete(`/employees/${id}`);
 };
 
 // 添加员工
@@ -21,6 +21,6 @@ export const addEmployee = (employeeData) => {
 };
 
 // 更新员工信息
-export const updateEmployee = (id, employeeData) => {
-  return http.put(`/employees/${id}`, employeeData);
+export const updateEmployee = (employeeData) => {
+  return http.put(`/employees/${employeeData.id}`, employeeData);
 }

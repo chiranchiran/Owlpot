@@ -1,33 +1,36 @@
-import { useNotification } from '@/hooks/useNotification';
+import { useNotification } from '../components/common/NotificationContext';
 import { useQuery } from '@tanstack/react-query';
-import { useState } from 'react';
-export const useSelect = (initialPage = 1, initialPageSize = 10) => {
-  const [page, setPage] = useState(initialPage);
+import { useState, useCallback } from 'react';
+
+export const useSelect = (key, queryFunction, initialPage = 1, initialPageSize = 10) => {
+  const [currentPage, setCurrentPage] = useState(initialPage);
   const [pageSize, setPageSize] = useState(initialPageSize);
+  const [queryParams, setQueryParams] = useState({});
   const { showNotification } = useNotification();
 
-  const query = useQuery({
-    queryKey: ['employees', page, pageSize],
-    queryFn: async () => {
-      const res = await getEmployees({ page, pageSize });
+  const mergedParams = useCallback(() => {
+    return { ...queryParams, currentPage, pageSize };
+  }, [queryParams, currentPage, pageSize]);
 
-      if (res.code !== 0) {
+  const query = useQuery({
+    queryKey: [key, mergedParams()],
+    queryFn: async () => {
+      const res = await queryFunction(mergedParams());
+      if (res.code === 0) {
         showNotification(`获取失败: ${res.msg || '未知错误'}`, 'error');
         throw new Error(res.msg || '获取失败');
       }
 
-      showNotification('获取成功', 'success');
-
       // 计算分页元数据
       const total = res.data.total;
       const totalPages = Math.ceil(total / pageSize);
-      const hasNextPage = page < totalPages;
-      const hasPrevPage = page > 1;
+      const hasNextPage = currentPage < totalPages;
+      const hasPrevPage = currentPage > 1;
 
       return {
         records: res.data.records,
         total,
-        currentPage: page,
+        currentPage,
         totalPages,
         hasNextPage,
         hasPrevPage
@@ -39,29 +42,36 @@ export const useSelect = (initialPage = 1, initialPageSize = 10) => {
 
   // 重置页码为1时设置页面大小
   const setPageSizeWithReset = (size) => {
-    setPage(1);
+    setCurrentPage(1);
     setPageSize(size);
+  };
+
+  // 设置查询参数（用于搜索）
+  const setParams = (params) => {
+    setCurrentPage(1);
+    setQueryParams(params);
   };
 
   return {
     ...query,
-    page,
-    setPage,
+    currentPage,
+    setCurrentPage,
     pageSize,
-    setPageSize: setPageSizeWithReset, // 使用重置页码的版本
+    setPageSize: setPageSizeWithReset,
+    setParams,
     goToNextPage: () => {
       if (query.data?.hasNextPage) {
-        setPage(p => p + 1);
+        setCurrentPage(p => p + 1);
       }
     },
     goToPrevPage: () => {
       if (query.data?.hasPrevPage) {
-        setPage(p => p - 1);
+        setCurrentPage(p => p - 1);
       }
     },
     goToPage: (newPage) => {
       if (newPage >= 1 && newPage <= query.data?.totalPages) {
-        setPage(newPage);
+        setCurrentPage(newPage);
       }
     }
   };

@@ -12,6 +12,8 @@ import com.owlpot.service.EmployeesService;
 import com.owlpot.utils.JwtUtil;
 import com.owlpot.utils.PasswordUtil;
 import com.owlpot.vo.EmployeeLoginVO;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -30,6 +32,7 @@ import java.util.Map;
  * @author 池苒
  * @since 2025-06-02
  */
+@Schema(name = "员工相关", description = "员工")
 @Slf4j
 @RestController
 @RequestMapping("/api/employees")
@@ -46,6 +49,7 @@ public class EmployeesController {
      * @param employeeLoginDTO
      * @return
      */
+    @Operation(summary = "员工登录")
     @PostMapping("/login")
     public Result<EmployeeLoginVO> EmpLogin(@RequestBody EmployeeLoginDTO employeeLoginDTO) throws AccountLockedException, AccountNotFoundException {
         log.info("员工登录：{}", employeeLoginDTO);
@@ -71,11 +75,7 @@ public class EmployeesController {
     @PostMapping
     public Result addEmp(@RequestBody Employees employee){
         log.info("新增员工：{}",employee);
-        //设置账号的状态，默认正常状态 1表示正常 0表示锁定
-        employee.setStatus(StatusConstant.ENABLE);
-        //设置密码，默认密码123456
-        employee.setPassword(passwordUtil.encode(PasswordConstant.DEFAULT_PASSWORD));
-        employeesService.save(employee);
+        employeesService.saveEmp(employee);
         return Result.success();
     }
 
@@ -84,6 +84,7 @@ public class EmployeesController {
      * @param employeePageQueryDTO
      * @return
      */
+    @Operation(summary = "员工分页查询")
     @GetMapping
     public Result<PageResult> getEmps(EmployeePageQueryDTO employeePageQueryDTO){
         log.info("员工分页查询，参数为：{}", employeePageQueryDTO);
@@ -98,23 +99,39 @@ public class EmployeesController {
      */
     @GetMapping("/{id}")
     public Result<Employees> getEmp(@PathVariable Long id){
+        log.info("根据id查询员工信息，id为：{}", id);
         Employees employee = employeesService.getById(id);
         return Result.success(employee);
     }
+    /**
+     * 删除员工
+     * @param
+     */
 
+    @Operation(summary = "删除员工")
+    @DeleteMapping("/{id}")
+    public Result deleteEmp(@PathVariable Long id){
+        log.info("删除员工，id为：{}", id);
+        employeesService.removeById(id);
+        return Result.success();
+    }
     /**
      * 编辑员工信息
      * @return
      */
     @PutMapping("/{id}")
-    public Result updateEmp(@RequestBody Employees employee){
+    public Result<Employees> updateEmp(@RequestBody Employees employee){
         log.info("编辑员工信息：{}", employee);
+        if(employee.getName()==null){
+            return Result.success();
+        }
         employeesService.updateById(employee);
-        return Result.success();
+        return Result.success(employeesService.getById(employee.getId()));
     }
     /**
      * 修改员工密码
      */
+    @Operation(summary = "修改员工密码")
     @PutMapping("/{id}/password")
     public Result updateEmpPassword(@PathVariable Long id, @RequestBody EmployeeChangePwdDTO employeeChangePwdDTO) throws AccountLockedException, AccountNotFoundException {
         log.info("修改员工密码：{}", employeeChangePwdDTO);

@@ -1,6 +1,6 @@
 import React from 'react';
 
-const AddModal = ({ onClose, title }) => {
+const AddModal = ({ onClose, title, data }) => {
   return (
     <div className="add-category-modal">
       <div className="modal-header">
@@ -13,6 +13,8 @@ const AddModal = ({ onClose, title }) => {
           <input
             type="text"
             id="dishCategoryName"
+            name="name"
+            value={data ? data.name : ""}
             placeholder="请输入分类名称"
           />
         </div>
@@ -20,7 +22,9 @@ const AddModal = ({ onClose, title }) => {
           <label htmlFor="dishCategorySort">* 排序:</label>
           <input
             type="number"
+            name="orderNumber"
             id="dishCategorySort"
+            value={data ? data.orderNumber : ""}
             placeholder="请输入排序"
           />
         </div>

@@ -11,7 +11,6 @@ const Header = () => {
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const [currentDateTime, setCurrentDateTime] = useState('');
   const [showBusinessModal, setShowBusinessModal] = useState(false);
-  const { showNotification } = useNotification
   const businessStatus = useSelector(state => state.app.status); // 从 Redux 获取营业状态
   const { id, role, name, username } = useSelector(state => state.user); // 从 Redux 获取用户信息
   const [selectedStatus, setSelectedStatus] = useState(businessStatus);
@@ -52,8 +51,7 @@ const Header = () => {
   }, [shopStatusData, dispatch]);
 
   const openBusinessModal = () => {
-    console.log(selectedStatus);
-    console.log(shopStatusData);
+    console.log(1);
     setShowBusinessModal(true);
   };
 
@@ -64,12 +62,13 @@ const Header = () => {
   const confirmBusinessStatusChange = () => {
     updateStatus(selectedStatus);
     closeBusinessModal();
+
   };
   const logout = () => {
     mutation.mutate();
   }
   return (
-    <div className="header">
+    <div className="header data-cards">
       <div className="header-left">
         <button className="sidebar-toggle" onClick={() => dispatch(toggleSidebar())}>
           ☰

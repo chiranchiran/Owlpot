@@ -13,6 +13,7 @@ const ChangePwd = ({ onClose, title, id, username }) => {
 
     // 密码格式校验
     if (!oldPassword.trim()) {
+
       showNotification('旧密码不能为空', 'error');
       return;
     }

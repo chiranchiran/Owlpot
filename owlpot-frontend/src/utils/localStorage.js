@@ -1,3 +1,6 @@
+import { useSelector } from "react-redux";
+
+
 // 侧边栏状态
 const sidebarStatusKey = 'sidebar';
 export const getSidebarStatus = () => localStorage.getItem(sidebarStatusKey);
@@ -10,9 +13,7 @@ export const setToken = (token) => localStorage.setItem(tokenKey, token);
 export const removeToken = () => localStorage.removeItem(tokenKey);
 
 // 检查是否已认证
-export const isAuthenticated = () => {
-  return !!getToken();
-};
+
 
 // // 打印信息（存储为JSON）
 // const printKey = 'print_info';

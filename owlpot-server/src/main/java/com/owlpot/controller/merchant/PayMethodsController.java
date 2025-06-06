@@ -1,7 +1,14 @@
 package com.owlpot.controller.merchant;
 
+import com.owlpot.entity.PayMethods;
+import com.owlpot.result.Result;
+import com.owlpot.service.PayMethodsService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * <p>
@@ -14,5 +21,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/payMethods")
 public class PayMethodsController {
+@Autowired
+private PayMethodsService payMethodsService;
 
+    @GetMapping
+    public Result<List<PayMethods>> getPayMethods() {
+        List<PayMethods> l = payMethodsService.getPayMethods();
+        return Result.success(l);
+    }
 }

@@ -13,33 +13,19 @@ import {
   addCategory,
   updateCategory
 } from '../api/category';
+import { useNavigate } from 'react-router-dom';
+// export const useCategories = (params = {}) => {
+//   const { showNotification } = useNotification();
 
-export const useCategories = (params = {}) => {
-  const { showNotification } = useNotification();
-
-  return useQuery({
-    queryKey: ['categories', params],
-    queryFn: () => getCategories(params).then(res => res.data.data),
-    staleTime: 5 * 60 * 1000,
-    onError: (error) => {
-      showNotification(`获取分类失败: ${error.message}`, 'error');
-    }
-  });
-};
-
-export const useCategory = (id) => {
-  const { showNotification } = useNotification();
-
-  return useQuery({
-    queryKey: ['category', id],
-    queryFn: () => getCategoryById(id).then(res => res.data.data),
-    enabled: !!id,
-    onError: (error) => {
-      showNotification(`获取分类详情失败: ${error.message}`, 'error');
-    }
-  });
-};
-
+//   return useQuery({
+//     queryKey: ['categories', params],
+//     queryFn: () => getCategories(params).then(res => res.data.data),
+//     staleTime: 5 * 60 * 1000,
+//     onError: (error) => {
+//       showNotification(`获取分类失败: ${error.message}`, 'error');
+//     }
+//   });
+// };
 export const useCategoryProductCount = (id) => {
   const { showNotification } = useNotification();
 
@@ -52,36 +38,49 @@ export const useCategoryProductCount = (id) => {
     }
   });
 };
-
-export const useAddCategory = () => {
-  const queryClient = useQueryClient();
-  const { showNotification } = useNotification();
-
-  return useMutation({
-    mutationFn: addCategory,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['categories'] });
-      showNotification('分类添加成功', 'success');
-    },
-    onError: (error) => {
-      showNotification(`添加分类失败: ${error.message}`, 'error');
+export const useCategory = (id) => {
+  return useQuery({
+    queryKey: ['category', id],
+    queryFn: async () => {
+      const res = await getCategoryById(id)
+      if (res.code === 0) {
+        throw new Error(res.msg || '获取分类详情失败');
+      }
+      return res.data
     }
   });
 };
 
+export const useAddCategory = () => {
+  const queryClient = useQueryClient();
+  const { showNotification } = useNotification();
+  return useMutation({
+    mutationFn: addCategory,
+    onSuccess: (data) => {
+      if (data.code === 0) {
+        throw new Error(data.msg || '分类添加成功');
+      }
+      queryClient.invalidateQueries({ queryKey: ['categories'] });
+      showNotification('分类添加成功', 'success');
+    },
+  });
+};
 export const useUpdateCategory = () => {
   const queryClient = useQueryClient();
   const { showNotification } = useNotification();
-
+  const navigate = useNavigate()
   return useMutation({
-    mutationFn: ({ id, categoryData }) => updateCategory(id, categoryData),
+    mutationFn: updateCategory,
     onSuccess: (data, variables) => {
+      if (data.code === 0) {
+        throw new Error(data.msg || '修改分类信息失败');
+      }
       queryClient.invalidateQueries({ queryKey: ['categories'] });
-      queryClient.setQueryData(['category', variables.id], data.data);
-      showNotification('分类更新成功', 'success');
-    },
-    onError: (error) => {
-      showNotification(`更新分类失败: ${error.message}`, 'error');
+      queryClient.setQueryData(['employee', variables.id], data.data);
+      if (data.data !== null) {
+        showNotification('修改分类信息成功', 'success');
+        navigate('/category')
+      }
     }
   });
 };
@@ -92,12 +91,12 @@ export const useDeleteCategory = () => {
 
   return useMutation({
     mutationFn: deleteCategory,
-    onSuccess: (_, id) => {
+    onSuccess: (data, id) => {
+      if (data.code === 0) {
+        throw new Error(data.msg || '删除分类失败');
+      }
       queryClient.invalidateQueries({ queryKey: ['categories'] });
       showNotification('分类删除成功', 'success');
-    },
-    onError: (error) => {
-      showNotification(`删除分类失败: ${error.message}`, 'error');
     }
   });
 };

@@ -1,18 +1,18 @@
 .setmeal-management {
   background-color: var(--background);
-  padding: 20px;
+  padding: 0 20px;
 }
 
 #searchName2 {
-  margin-left: -5.5rem;
+  margin-left: -65rem;
 }
 
 #searchCategory {
-  margin-left: -5.5rem;
+  margin-left: -65rem;
 }
 
 #searchStatus {
-  margin-left: -5.5rem;
+  margin-left: -6rem;
 }
 
 .dish1 {

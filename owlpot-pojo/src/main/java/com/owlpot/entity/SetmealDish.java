@@ -34,12 +34,12 @@ public class SetmealDish implements Serializable {
     private Long dishId;
 
     @TableField("count")
-    private Byte count;
+    private Integer count;
 
     /**
      * 1为删除
      */
     @TableField("deleted")
     @TableLogic
-    private String deleted;
+    private Integer deleted;
 }

@@ -3,6 +3,8 @@ package com.owlpot.service;
 import com.owlpot.entity.PayMethods;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.List;
+
 /**
  * <p>
  * 支付方式表 服务类
@@ -13,4 +15,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface PayMethodsService extends IService<PayMethods> {
 
+    List<PayMethods> getPayMethods();
 }

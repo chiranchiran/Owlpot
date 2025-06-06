@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNotification } from '../common/NotificationContext';
 import './index.css';
 import { useLogin } from '../../hooks/useAuth';
+import { useSelector } from 'react-redux';
 
 
 const LoginPage = () => {
@@ -11,6 +12,7 @@ const LoginPage = () => {
   const { showNotification } = useNotification();
   const [loginAttempts, setLoginAttempts] = useState(5);
   const loginMutation = useLogin();
+  const shopName = useSelector(state => state.app.shopName);
   const isLoginLoading = loginMutation.isPending;
   const validateForm = () => {
     if (!username.trim()) {
@@ -70,7 +72,7 @@ const LoginPage = () => {
   return (
     <div className="login-container">
       <div className="login-header">
-        <div className="logo">夜宴食铺</div>
+        <div className="logo">{shopName}</div>
         <div className="subtitle">Owlpot</div>
       </div>
 
@@ -121,7 +123,7 @@ const LoginPage = () => {
       </form>
 
       <div className="login-footer">
-        <p>© 2025 夜宴食铺管理系统 | 技术支持: 482020095@qq.com</p>
+        <p>© 2025 {shopName} 管理系统 | 技术支持: 482020095@qq.com</p>
       </div>
     </div>
   );

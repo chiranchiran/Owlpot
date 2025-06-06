@@ -3,6 +3,7 @@ package com.owlpot.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.owlpot.constant.MessageConstant;
+import com.owlpot.constant.PasswordConstant;
 import com.owlpot.constant.StatusConstant;
 import com.owlpot.dto.EmployeeChangePwdDTO;
 import com.owlpot.dto.EmployeeLoginDTO;
@@ -16,9 +17,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.owlpot.utils.PasswordUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.util.DigestUtils;
 
 import javax.security.auth.login.AccountLockedException;
 import javax.security.auth.login.AccountNotFoundException;
@@ -44,11 +43,13 @@ public class EmployeesServiceImpl extends ServiceImpl<EmployeesMapper, Employees
     public PageResult pageQuery(EmployeePageQueryDTO emp) {
         Page<Employees> page = new Page<>(emp.getCurrentPage(), emp.getPageSize());  // 第1页，每页10条
         QueryWrapper<Employees> wrapper = new QueryWrapper<>();
-        wrapper.like("name", emp.getName());
-
+        wrapper.like(null != emp.getName(), "name", emp.getName());
+        wrapper.orderByDesc("update_time");
+        wrapper.select("id", "username","name", "phone","status","role", "update_time");
         Page<Employees> pages = employeesMapper.selectPage(page, wrapper);
         List<Employees> records = pages.getRecords();  // 当前页数据
-        long total = pages.getTotal();           // 总记录数
+        long total = pages.getTotal();
+        log.info("查询成功：{}", total);
         return new PageResult(total, records);
     }
 
@@ -72,7 +73,7 @@ public class EmployeesServiceImpl extends ServiceImpl<EmployeesMapper, Employees
             log.info("密码比对失败");
             throw new PasswordErrorException(MessageConstant.PASSWORD_ERROR);
         }
-        if (employee.getStatus()== StatusConstant.DISABLE) {
+        if (employee.getStatus() == StatusConstant.DISABLE) {
             //账号被锁定
             throw new AccountLockedException(MessageConstant.ACCOUNT_LOCKED);
         }
@@ -101,5 +102,28 @@ public class EmployeesServiceImpl extends ServiceImpl<EmployeesMapper, Employees
         employees.setPassword(changePwd);
         employeesMapper.updateById(employees);
         log.info("密码修改成功");
+    }
+    @Override
+    public Employees getById(Long id) {
+        Employees e = employeesMapper.selectById(id);
+        e.setPassword(null);
+        return e;
+    }
+
+    @Override
+    public void saveEmp(Employees employee) {
+        Employees emp = getByUsername(employee.getUsername());
+        if (emp != null) {
+            throw new RuntimeException(MessageConstant.ACCOUNT_EXIST);
+        }
+        //设置密码，默认密码123456
+        employee.setPassword(passwordUtil.encode(PasswordConstant.DEFAULT_PASSWORD));
+        employeesMapper.insert(employee);
+    }
+
+    public Employees getByUsername(String username) {
+        QueryWrapper<Employees> wrapper = new QueryWrapper<>();
+        wrapper.eq("username", username);
+        return employeesMapper.selectOne(wrapper);
     }
 }

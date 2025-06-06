@@ -44,23 +44,23 @@ export const useUpdateShopStatus = () => {
   });
 };
 
-export const useMessageCount = () => {
-  const { showNotification } = useNotification();
+// export const useMessageCount = () => {
+//   const { showNotification } = useNotification();
 
-  return useQuery({
-    queryKey: ['messageCount'],
-    queryFn: () => getMessageCount().then(res => res.data.data),
-    staleTime: 1 * 60 * 1000,
-    refetchInterval: 2 * 60 * 1000,
-  });
-};
+//   return useQuery({
+//     queryKey: ['messageCount'],
+//     queryFn: () => getMessageCount().then(res => res.data.data),
+//     staleTime: 1 * 60 * 1000,
+//     refetchInterval: 2 * 60 * 1000,
+//   });
+// };
 
-export const useShopInfo = () => {
-  const { showNotification } = useNotification();
+// export const useShopInfo = () => {
+//   const { showNotification } = useNotification();
 
-  return useQuery({
-    queryKey: ['shopInfo'],
-    queryFn: () => getShopInfo().then(res => res.data.data),
-    staleTime: 24 * 60 * 60 * 1000,
-  });
-};
+//   return useQuery({
+//     queryKey: ['shopInfo'],
+//     queryFn: () => getShopInfo().then(res => res.data.data),
+//     staleTime: 24 * 60 * 60 * 1000,
+//   });
+// };

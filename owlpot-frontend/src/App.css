@@ -73,7 +73,7 @@ body {
 
   .current-datetime {
     order: 3;
-    width: 100%;
+    width: 40%;
     text-align: left;
     padding-left: 10px;
   }

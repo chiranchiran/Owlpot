@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Date;
 import lombok.Getter;
 import lombok.Setter;
@@ -42,19 +43,19 @@ public class Orders implements Serializable {
      * 1待付款，2待接单，3已接单，4派送中，5已完成，6已取消
      */
     @TableField("status")
-    private String status;
+    private Integer status;
 
     @TableField("order_time")
-    private Date orderTime;
+    private LocalDateTime orderTime;
 
     /**
      * 0已支付，1未付款，2付款失败，3退款完成，4退款失败
      */
     @TableField("pay_status")
-    private String payStatus;
+    private Integer payStatus;
 
     @TableField("pay_time")
-    private Date payTime;
+    private LocalDateTime payTime;
 
     /**
      * 1为微信支付
@@ -72,22 +73,22 @@ public class Orders implements Serializable {
     private String cancelReason;
 
     @TableField("cancel_time")
-    private Date cancelTime;
+    private LocalDateTime cancelTime;
 
     @TableField("reject_reason")
     private String rejectReason;
 
     @TableField("expected_time")
-    private Date expectedTime;
+    private LocalDateTime expectedTime;
 
     /**
      * 1为立即送出，0为选择具体时间
      */
     @TableField("delivery_status")
-    private String deliveryStatus;
+    private Integer deliveryStatus;
 
     @TableField("delivery_time")
-    private Date deliveryTime;
+    private LocalDateTime deliveryTime;
 
     @TableField("packing_fee")
     private BigDecimal packingFee;
@@ -99,7 +100,7 @@ public class Orders implements Serializable {
      * 1按餐量提供，0选具体数量
      */
     @TableField("tableware_status")
-    private String tablewareStatus;
+    private Integer tablewareStatus;
 
     @TableField("tableware_number")
     private Integer tablewareNumber;
@@ -109,5 +110,5 @@ public class Orders implements Serializable {
      */
     @TableField("deleted")
     @TableLogic
-    private String deleted;
+    private Integer deleted;
 }

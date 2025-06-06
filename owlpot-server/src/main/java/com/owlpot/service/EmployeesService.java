@@ -19,7 +19,6 @@ import javax.security.auth.login.AccountNotFoundException;
  * @author 池苒
  * @since 2025-06-02
  */
-@Service
 public interface EmployeesService extends IService<Employees> {
 
     PageResult pageQuery(EmployeePageQueryDTO employeePageQueryDTO);
@@ -27,4 +26,8 @@ public interface EmployeesService extends IService<Employees> {
     Employees login(EmployeeLoginDTO employeeLoginDTO) throws AccountNotFoundException, AccountLockedException;
 
     void updateEmpPassword(Long id, EmployeeChangePwdDTO employeeChangePwdDTO) throws AccountNotFoundException, AccountLockedException;
+
+    Employees getById(Long id);
+
+    void saveEmp(Employees employee);
 }

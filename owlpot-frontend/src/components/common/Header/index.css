@@ -1,16 +1,19 @@
 .header {
   display: flex;
+  margin-top: 10px;
   justify-content: space-between;
   align-items: center;
   padding: 15px 0;
   /* background-color: var(--primary); */
   border-bottom: 1px solid var(--border);
+
 }
 
 .header-left {
   display: flex;
   align-items: center;
   gap: 20px;
+
 }
 
 .sidebar-toggle {
@@ -28,7 +31,7 @@
   background-color: rgba(94, 114, 228, 0.1);
   border-radius: 20px;
   padding: 5px 15px;
-  font-size: 0.9rem;
+  font-size: 16px !important;
   white-space: nowrap;
 }
 
@@ -53,7 +56,7 @@
   color: var(--primary);
   margin-left: 10px;
   cursor: pointer;
-  font-size: 0.85rem;
+  font-size: 16px !important;
 }
 
 .current-datetime {
@@ -227,7 +230,7 @@
 }
 
 .modal-button.cancel:hover {
-  background-color: rgba(249, 250, 252, 0.8);
+  background-color: var(--primary-lighter);
 }
 
 .modal-button.confirm {
@@ -237,7 +240,7 @@
 }
 
 .modal-button.confirm:hover {
-  background-color: var(--primary-light);
+  background-color: var(--primary-dark);
 }
 
 .add-category-modal {

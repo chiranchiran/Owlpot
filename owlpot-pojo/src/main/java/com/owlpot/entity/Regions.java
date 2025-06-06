@@ -39,5 +39,5 @@ public class Regions implements Serializable {
      * 1省2市3区
      */
     @TableField("level")
-    private String level;
+    private Integer level;
 }

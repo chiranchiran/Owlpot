@@ -36,5 +36,5 @@ public class PayMethods implements Serializable {
      * 1为启用
      */
     @TableField("is_active")
-    private String isActive;
+    private Integer isActive;
 }

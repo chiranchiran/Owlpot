@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Date;
 import lombok.Getter;
 import lombok.Setter;
@@ -48,18 +49,18 @@ public class Setmeals implements Serializable {
      * 0停售，1启售
      */
     @TableField("status")
-    private String status;
+    private Integer status;
 
     @TableField("create_time")
-    private Date createTime;
+    private LocalDateTime createTime;
 
     @TableField("update_time")
-    private Date updateTime;
+    private LocalDateTime updateTime;
 
     /**
      * 1为删除
      */
     @TableField("deleted")
     @TableLogic
-    private String deleted;
+    private Integer deleted;
 }

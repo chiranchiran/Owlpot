@@ -13,7 +13,7 @@ const Pagination = ({
   const totalPages = Math.ceil(total / pageSize);
 
   // 当没有数据时，不显示分页
-  if (total === 0) {
+  if (total === 0 || total === undefined) {
     return null;
   }
 

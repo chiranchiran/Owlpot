@@ -121,6 +121,7 @@ const Order = () => {
         />
         <label htmlFor="startDate">下单时间:</label>
         <input
+          className="date-input"
           type="date"
           id="startDate"
           value={startDate}
@@ -135,7 +136,7 @@ const Order = () => {
         />
         <button className="search-button" onClick={handleSearch}>查询</button>
       </div>
-      <table className="order-table">
+      <table className="order-table management">
         <thead>
           <tr>
             <th>订单号</th>

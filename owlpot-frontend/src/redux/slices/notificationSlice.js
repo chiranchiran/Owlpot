@@ -2,7 +2,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  message: null,
+  message: "",
   type: 'info',
   visible: false
 };
@@ -19,7 +19,7 @@ const notificationSlice = createSlice({
     },
     hideNotification: (state) => {
       state.visible = false;
-      state.message = null;
+      state.message = "";
     }
   }
 });

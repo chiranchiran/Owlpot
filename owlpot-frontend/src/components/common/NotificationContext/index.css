@@ -1,9 +1,21 @@
-/* src/App.css 添加以下样式 */
-.notification {
+/* 通知容器样式 */
+.notification-container {
   position: fixed;
   top: 30px;
   right: 30px;
-  width: 400px;
+  z-index: 10000;
+  display: flex;
+  flex-direction: column-reverse;
+  /* 新通知在顶部 */
+  gap: 15px;
+  /* 通知间距 */
+}
+
+/* 单个通知样式 */
+.notification {
+  position: relative;
+  /* 改为相对定位 */
+  width: 300px;
   background-color: var(--card-bg);
   border-radius: 8px;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
@@ -11,8 +23,19 @@
   z-index: 1000;
   animation: slideIn 0.3s ease-out;
   border-left: 4px solid;
+  transform: translateY(0);
+  /* 初始位置 */
+  transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+  opacity: 1;
 }
 
+/* 通知移除动画 */
+.notification.exiting {
+  transform: translateX(100%);
+  opacity: 0;
+}
+
+/* 通知状态样式 */
 .notification.success {
   border-left-color: var(--success);
 }
@@ -29,12 +52,14 @@
   border-left-color: var(--secondary);
 }
 
+/* 通知内容样式 */
 .notification-content {
   display: flex;
   align-items: center;
   padding: 18px;
 }
 
+/* 通知图标样式 */
 .notification-icon {
   width: 32px;
   height: 32px;
@@ -45,6 +70,8 @@
   margin-right: 15px;
   font-weight: bold;
   font-size: 18px;
+  flex-shrink: 0;
+  /* 防止图标被压缩 */
 }
 
 .notification.success .notification-icon {
@@ -67,12 +94,16 @@
   color: var(--secondary);
 }
 
+/* 通知消息样式 */
 .notification-message {
   flex: 1;
   font-size: 0.95rem;
   line-height: 1.4;
+  padding-right: 10px;
+  /* 为关闭按钮留空间 */
 }
 
+/* 进度条样式 */
 .notification-progress {
   height: 4px;
   width: 100%;
@@ -83,7 +114,7 @@
   content: '';
   display: block;
   height: 100%;
-  animation: progress 3s linear;
+  animation: progress 3s linear forwards;
 }
 
 .notification.success .notification-progress::after {
@@ -102,6 +133,32 @@
   background-color: var(--secondary);
 }
 
+/* 关闭按钮样式 */
+.notification-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  color: rgba(255, 255, 255, 0.7);
+  transition: color 0.2s;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  z-index: 2;
+}
+
+.notification-close:hover {
+  color: white;
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* 动画定义 */
 @keyframes slideIn {
   from {
     transform: translateX(100%);
@@ -121,5 +178,26 @@
 
   100% {
     width: 0;
+  }
+}
+
+/* 新通知进入动画 */
+@keyframes slideDown {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* 通知移除动画 */
+@keyframes slideOut {
+  to {
+    transform: translateX(150%);
+    opacity: 0;
   }
 }

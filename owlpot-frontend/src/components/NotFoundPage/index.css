@@ -1,20 +1,21 @@
 .not-found-page {
   background-color: var(--background);
-  min-height: 100vh;
+  /* min-height: 100vh; */
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 600px;
 }
 
 .error-container {
   text-align: center;
   background-color: var(--card-bg);
-  padding: 40px;
   border-radius: 8px;
   box-shadow: var(--shadow);
-  max-width: 600px;
+  /* max-width: 600px; */
   width: 100%;
-  margin: 20px;
+  height: 600px;
+  padding: 100PX;
 }
 
 .error-code {
@@ -47,5 +48,5 @@
 }
 
 .home-button:hover {
-  background-color: var(--secondary-hover);
+  background-color: var(--primary-dark);
 }

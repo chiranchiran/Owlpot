@@ -16,21 +16,7 @@ function App() {
   return (
     <NotificationProvider>
       <div className="app">
-        {/* 在非登录页面显示侧边栏和头部 */}
-        {!isLoginPage && (
-          <div className="dashboard">
-            <Sidebar />
-            <div className={`main-content ${collapsed ? 'collapsed' : ''}`}>
-              <Header />
-              <div className="card">
-                <RouterConfig /> {/* 路由内容 */}
-                <Outlet />
-              </div>
-            </div>
-          </div>
-        )}
-        {/* 在登录页面显示登录表单 */}
-        {isLoginPage && <LoginPage />}
+        <RouterConfig /> {/* 路由内容 */}
       </div>
     </NotificationProvider>
   );

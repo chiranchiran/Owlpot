@@ -27,6 +27,7 @@
 .time-tabs {
   display: flex;
   margin-bottom: 20px;
+
 }
 
 .time-tab {
@@ -37,6 +38,12 @@
   color: white;
   background-color: rgb(157, 169, 235);
   margin-right: 10px;
+  font-size: 16px ! important;
+}
+
+.time-tabs span {
+  margin-top: 0.5rem;
+  font-size: 16px ! important;
 }
 
 .active {
@@ -52,6 +59,7 @@
   background-color: var(--secondary);
   margin-bottom: 20px;
   margin-left: auto;
+  font-size: 16px !important;
 }
 
 .statistic-panels {

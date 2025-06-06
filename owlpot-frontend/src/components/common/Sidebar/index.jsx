@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 
 const Sidebar = () => {
   const isCollapsed = useSelector(state => state.app.sidebar.closed);
+  const shopName = useSelector(state => state.app.shopName);
   const menuItems = [
     { id: 'dashboard', label: '工作台', icon: 'fa-dashboard' },
     { id: 'data', label: '数据统计', icon: 'fa-bar-chart' },
@@ -22,7 +23,7 @@ const Sidebar = () => {
         <div className="sidebar-header">
           <div className="sidebar-logo">
             <span className="logo-icon">🌙</span>
-            <span className="logo-text">夜宴食铺</span>
+            <span className="logo-text">{shopName}</span>
           </div>
         </div>
 

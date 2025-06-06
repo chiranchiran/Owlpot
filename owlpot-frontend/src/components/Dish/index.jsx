@@ -91,7 +91,7 @@ const Dish = () => {
         <button className="batch-delete-button">批量删除</button>
         <button className="add-dish-button">+ 新建菜品</button>
       </div>
-      <table className="dish-table">
+      <table className="dish-table management">
         <thead>
           <tr>
             <th><input type="checkbox" /></th>

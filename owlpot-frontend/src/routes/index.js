@@ -12,70 +12,80 @@ import Employee from '../components/Employee';
 import AddEmployee from '../components/AddEmployee';
 import Data from '../components/Data';
 import NotFoundPage from '../components/NotFoundPage';
-import { useSelector } from 'react-redux';
-import { isAuthenticated } from '../utils/localStorage';
+import { useAuthenticated } from '../hooks/useAuth'; // 假设你有一个useAuthenticated钩子来检查登录状态
+
+import MainLayout from '../components/common/MainLayout'; // 添加布局组件
 
 // 路由守卫组件
 const ProtectedRoute = ({ children }) => {
-  // 从 Redux 中获取 token
-  const flag = isAuthenticated();
+  const flag = useAuthenticated();
   return flag ? children : <Navigate to="/login" replace />;
+};
+
+// 主布局组件
+const MainLayoutWrapper = ({ children }) => {
+  return (
+    <MainLayout>
+      {children}
+    </MainLayout>
+  );
 };
 
 const RouterConfig = () => {
   return useRoutes([
     { path: '/login', element: <LoginPage /> },
-    { path: '/', element: <Navigate to="/dashboard" replace /> },
+    { path: '/', element: <Navigate to="/login" replace /> },
 
     // 需要登录的路由
     {
-      path: '/dashboard',
-      element: <ProtectedRoute><Dashboard /></ProtectedRoute>
-    },
-    {
-      path: '/order',
-      element: <ProtectedRoute><Order /></ProtectedRoute>
-    },
-
-    // 套餐管理
-    {
-      path: '/setmeal',
-      element: <ProtectedRoute><Setmeal /></ProtectedRoute>,
+      element: <ProtectedRoute><MainLayoutWrapper /></ProtectedRoute>,
       children: [
-        { path: 'add', element: <AddSetmeal /> },
-        { path: ':id', element: <AddSetmeal /> } // 复用编辑组件
+        { path: '/dashboard', element: <Dashboard /> },
+        { path: '/order', element: <Order /> },
+
+        // 套餐管理
+        {
+          path: '/setmeal',
+          element: <Setmeal />,
+        }, {
+          path: '/setmeal/add',
+          element: <AddSetmeal />
+        }, {
+          path: '/setmeal/edit/:id',
+          element: <AddSetmeal />
+        },
+
+        // 菜品管理
+        {
+          path: '/dish',
+          element: <Dish />,
+        }, {
+          path: '/dish/add',
+          element: <AddDish />
+        }, {
+          path: '/dish/edit/:id',
+          element: <AddDish />
+        },
+
+
+        // 分类管理
+        { path: '/category', element: <Category /> },
+
+        // 员工管理
+        {
+          path: '/employee',
+          element: <Employee />,
+        }, {
+          path: '/employee/add',
+          element: <AddEmployee />
+        }, {
+          path: '/employee/edit/:id',
+          element: <AddEmployee />
+        },
+
+
+        { path: '/data', element: <Data /> }
       ]
-    },
-
-    // 菜品管理
-    {
-      path: '/dish',
-      element: <ProtectedRoute><Dish /></ProtectedRoute>,
-      children: [
-        { path: 'add', element: <AddDish /> },
-        { path: ':id', element: <AddDish /> }
-      ]
-    },
-
-    // 分类管理
-    {
-      path: '/category',
-      element: <ProtectedRoute><Category /></ProtectedRoute>,
-    },
-
-    // 员工管理
-    {
-      path: '/employee',
-      element: <ProtectedRoute><Employee /></ProtectedRoute>,
-      children: [
-        { path: 'add', element: <AddEmployee /> },
-        { path: ':id', element: <AddEmployee /> } // 编辑路由
-      ]
-    },
-
-    {
-      path: '/data',
-      element: <ProtectedRoute><Data /></ProtectedRoute>
     },
 
     // 兜底路由

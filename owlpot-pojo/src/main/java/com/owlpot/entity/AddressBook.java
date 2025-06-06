@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 import lombok.Getter;
 import lombok.Setter;
@@ -37,12 +38,13 @@ public class AddressBook implements Serializable {
      * 0为女，1为男
      */
     @TableField("gender")
-    private String gender;
+    private Integer gender;
 
     @TableField("phone")
     private String phone;
 
     @TableField("province_code")
+
     private String provinceCode;
 
     @TableField("city_code")
@@ -58,14 +60,14 @@ public class AddressBook implements Serializable {
      * 0公司，1家，2学校
      */
     @TableField("tag")
-    private String tag;
+    private Integer tag;
 
     @TableField("create_time")
-    private Date createTime;
+    private LocalDateTime createTime;
 
     /**
      * 1代表默认地址
      */
     @TableField("is_default")
-    private String isDefault;
+    private Integer isDefault;
 }

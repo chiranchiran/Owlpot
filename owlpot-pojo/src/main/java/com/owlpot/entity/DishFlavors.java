@@ -41,5 +41,5 @@ public class DishFlavors implements Serializable {
      */
     @TableField("deleted")
     @TableLogic
-    private String deleted;
+    private Integer deleted;
 }

@@ -81,7 +81,7 @@ const Setmeal = () => {
         <button className="batch-delete-button">批量删除</button>
         <button className="add-setmeal-button">+ 新建套餐</button>
       </div>
-      <table className="setmeal-table">
+      <table className="setmeal-table management">
         <thead>
           <tr>
             <th><input type="checkbox" /></th>
