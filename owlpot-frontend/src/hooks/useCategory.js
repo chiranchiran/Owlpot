@@ -79,7 +79,6 @@ export const useUpdateCategory = () => {
       queryClient.setQueryData(['employee', variables.id], data.data);
       if (data.data !== null) {
         showNotification('修改分类信息成功', 'success');
-        navigate('/category')
       }
     }
   });

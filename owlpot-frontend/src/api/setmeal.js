@@ -1,8 +1,8 @@
 import http from '../utils/http';
 
 // 查询套餐列表
-export const getSetmeals = (params = {}) => {
-  return http.get('/setmeals', { params });
+export const getSetmeals = (params) => {
+  return http.get('/setmeals', params);
 };
 
 // 查询单个套餐
@@ -21,6 +21,6 @@ export const addSetmeal = (setmealData) => {
 };
 
 // 更新套餐
-export const updateSetmeal = (id, setmealData) => {
-  return http.put(`/setmeals/${id}`, setmealData);
+export const updateSetmeal = (setmealData) => {
+  return http.put(`/setmeals/${setmealData.id}`, setmealData);
 };

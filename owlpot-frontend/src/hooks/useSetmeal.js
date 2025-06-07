@@ -6,35 +6,22 @@ import {
 } from '@tanstack/react-query';
 import { useNotification } from '../components/common/NotificationContext';
 import {
-  getSetmeals,
   getSetmealById,
   deleteSetmeal,
   addSetmeal,
   updateSetmeal
 } from '../api/setmeal';
-
-export const useSetmeals = (params = {}) => {
-  const { showNotification } = useNotification();
-
-  return useQuery({
-    queryKey: ['setmeals', params],
-    queryFn: () => getSetmeals(params).then(res => res.data.data),
-    staleTime: 5 * 60 * 1000,
-    onError: (error) => {
-      showNotification(`获取套餐列表失败: ${error.message}`, 'error');
-    }
-  });
-};
+import { useNavigate } from 'react-router-dom';
 
 export const useSetmeal = (id) => {
-  const { showNotification } = useNotification();
-
   return useQuery({
     queryKey: ['setmeal', id],
-    queryFn: () => getSetmealById(id).then(res => res.data.data),
-    enabled: !!id,
-    onError: (error) => {
-      showNotification(`获取套餐详情失败: ${error.message}`, 'error');
+    queryFn: async () => {
+      const res = await getSetmealById(id)
+      if (res.code === 0) {
+        throw new Error(res.msg || '获取套餐数据失败');
+      }
+      return res.data
     }
   });
 };
@@ -42,32 +29,34 @@ export const useSetmeal = (id) => {
 export const useAddSetmeal = () => {
   const queryClient = useQueryClient();
   const { showNotification } = useNotification();
-
   return useMutation({
     mutationFn: addSetmeal,
-    onSuccess: () => {
+    onSuccess: (data) => {
+      if (data.code === 0) {
+        throw new Error(data.msg || '添加套餐失败');
+      }
       queryClient.invalidateQueries({ queryKey: ['setmeals'] });
       showNotification('套餐添加成功', 'success');
     },
-    onError: (error) => {
-      showNotification(`添加套餐失败: ${error.message}`, 'error');
-    }
   });
 };
 
 export const useUpdateSetmeal = () => {
   const queryClient = useQueryClient();
   const { showNotification } = useNotification();
-
+  const navigate = useNavigate()
   return useMutation({
-    mutationFn: ({ id, setmealData }) => updateSetmeal(id, setmealData),
+    mutationFn: updateSetmeal,
     onSuccess: (data, variables) => {
+      if (data.code === 0) {
+        throw new Error(data.msg || '修改套餐信息失败');
+      }
       queryClient.invalidateQueries({ queryKey: ['setmeals'] });
       queryClient.setQueryData(['setmeal', variables.id], data.data);
-      showNotification('套餐更新成功', 'success');
-    },
-    onError: (error) => {
-      showNotification(`更新套餐失败: ${error.message}`, 'error');
+      if (data.data !== null) {
+        showNotification('修改套餐信息成功', 'success');
+        navigate('/setmeal')
+      }
     }
   });
 };
@@ -78,12 +67,12 @@ export const useDeleteSetmeal = () => {
 
   return useMutation({
     mutationFn: deleteSetmeal,
-    onSuccess: (_, id) => {
+    onSuccess: (data, id) => {
+      if (data.code === 0) {
+        throw new Error(data.msg || '删除套餐失败');
+      }
       queryClient.invalidateQueries({ queryKey: ['setmeals'] });
       showNotification('套餐删除成功', 'success');
-    },
-    onError: (error) => {
-      showNotification(`删除套餐失败: ${error.message}`, 'error');
     }
   });
 };

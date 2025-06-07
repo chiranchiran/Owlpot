@@ -41,13 +41,13 @@ const AddEmployee = () => {
   useEffect(() => {
     if (isEditMode && employeeData) {
       const data = {
-        username: employeeData.username || '',
-        role: employeeData.role || 0,
-        name: employeeData.name || '',
-        phone: employeeData.phone || '',
-        gender: employeeData.gender || 1,
-        idNumber: employeeData.idNumber || null,
-        status: employeeData.status || 1
+        username: employeeData.username === null ? employeeData.username : '',
+        role: employeeData.role === null ? employeeData.role : 0,
+        name: employeeData.name === null ? employeeData.name : '',
+        phone: employeeData.phone === null ? employeeData.phone : '',
+        gender: employeeData.gender === null ? employeeData.gender : 1,
+        idNumber: employeeData.idNumber === null ? employeeData.idNumber : '',
+        status: employeeData.status === null ? employeeData.status : 0
       };
       setFormData(data);
       setOriginalData(data); // 保存原始数据用于重置
@@ -59,8 +59,8 @@ const AddEmployee = () => {
         name: '',
         phone: '',
         gender: 1,
-        idNumber: null,
-        status: 1
+        idNumber: '',
+        status: 0
       });
     }
   }, [employeeData, isEditMode]);
@@ -70,7 +70,7 @@ const AddEmployee = () => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
-      [name]: name === 'gender' ? parseInt(value) : name === 'role' ? parseInt(value) : value
+      [name]: name === 'gender' ? parseInt(value) : name === 'role' ? parseInt(value) : name === 'status' ? parseInt(value) : value
     });
   };
 
@@ -144,8 +144,8 @@ const AddEmployee = () => {
               name: '',
               phone: '',
               gender: 1,
-              idNumber: null,
-              status: 1
+              idNumber: '',
+              status: 0
             });
           } else {
             navigate('/employee')
@@ -263,7 +263,6 @@ const AddEmployee = () => {
             onChange={handleChange}
           />
         </div>
-
         {/* 编辑模式下显示状态选择 */}
         {isEditMode && (
           <div className="form-group">
@@ -274,7 +273,7 @@ const AddEmployee = () => {
                   type="radio"
                   name="status"
                   value={1}
-                  checked={formData.status === 1}
+                  checked={formData.status > 0}
                   onChange={handleChange}
                 />
                 启用

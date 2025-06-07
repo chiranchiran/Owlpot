@@ -200,3 +200,8 @@ td {
   color: white;
   cursor: pointer;
 }
+
+.add {
+  width: 500px;
+  padding: 30px;
+}

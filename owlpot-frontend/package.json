@@ -67,5 +67,5 @@
   "devDependencies": {
     "xlsx": "^0.18.5"
   },
-  "proxy": "http://localhost:8080"
+  "proxy": "http://localhost:8082"
 }

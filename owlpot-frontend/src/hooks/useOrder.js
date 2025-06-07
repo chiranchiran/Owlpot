@@ -13,98 +13,68 @@ import {
   updateOrder,
   createOrder
 } from '../api/order';
+import { useNavigate } from 'react-router-dom';
 
-// 商家订单列表
-export const useMerchantOrders = (params = {}) => {
-  const { showNotification } = useNotification();
-
+export const useOrder = (id) => {
   return useQuery({
-    queryKey: ['merchantOrders', params],
-    queryFn: () => getMerchantOrders(params).then(res => res.data.data),
-    staleTime: 2 * 60 * 1000,
-    onError: (error) => {
-      showNotification(`获取商家订单失败: ${error.message}`, 'error');
+    queryKey: ['order', id],
+    queryFn: async () => {
+      const res = await getOrderById(id)
+      if (res.code === 0) {
+        throw new Error(res.msg || '获取订单数据失败');
+      }
+      return res.data
     }
   });
 };
 
-// 用户订单列表
-export const useUserOrders = (params = {}) => {
-  const { showNotification } = useNotification();
+// export const useAddOrder = () => {
+//   const queryClient = useQueryClient();
+//   const { showNotification } = useNotification();
+//   return useMutation({
+//     mutationFn: addOrder,
+//     onSuccess: (data) => {
+//       if (data.code === 0) {
+//         throw new Error(data.msg || '添加订单失败');
+//       }
+//       queryClient.invalidateQueries({ queryKey: ['orders'] });
+//       showNotification('订单添加成功', 'success');
+//     },
+//   });
+// };
 
-  return useQuery({
-    queryKey: ['userOrders', params],
-    queryFn: () => getUserOrders(params).then(res => res.data.data),
-    staleTime: 2 * 60 * 1000,
-    onError: (error) => {
-      showNotification(`获取用户订单失败: ${error.message}`, 'error');
-    }
-  });
-};
-
-// 商家订单详情
-export const useMerchantOrder = (id) => {
-  const { showNotification } = useNotification();
-
-  return useQuery({
-    queryKey: ['merchantOrder', id],
-    queryFn: () => getMerchantOrderById(id).then(res => res.data.data),
-    enabled: !!id,
-    onError: (error) => {
-      showNotification(`获取商家订单详情失败: ${error.message}`, 'error');
-    }
-  });
-};
-
-// 用户订单详情
-export const useUserOrder = (id) => {
-  const { showNotification } = useNotification();
-
-  return useQuery({
-    queryKey: ['userOrder', id],
-    queryFn: () => getUserOrderById(id).then(res => res.data.data),
-    enabled: !!id,
-    onError: (error) => {
-      showNotification(`获取用户订单详情失败: ${error.message}`, 'error');
-    }
-  });
-};
-
-// 创建订单
-export const useCreateOrder = () => {
-  const queryClient = useQueryClient();
-  const { showNotification } = useNotification();
-
-  return useMutation({
-    mutationFn: createOrder,
-    onSuccess: (data) => {
-      queryClient.invalidateQueries({ queryKey: ['merchantOrders'] });
-      queryClient.invalidateQueries({ queryKey: ['userOrders'] });
-      showNotification('订单创建成功', 'success');
-      return data;
-    },
-    onError: (error) => {
-      showNotification(`创建订单失败: ${error.message}`, 'error');
-    }
-  });
-};
-
-// 更新订单
 export const useUpdateOrder = () => {
   const queryClient = useQueryClient();
   const { showNotification } = useNotification();
-
+  const navigate = useNavigate()
   return useMutation({
-    mutationFn: ({ id, orderData }) => updateOrder(id, orderData),
+    mutationFn: updateOrder,
     onSuccess: (data, variables) => {
-      queryClient.invalidateQueries({ queryKey: ['merchantOrders'] });
-      queryClient.invalidateQueries({ queryKey: ['userOrders'] });
-      queryClient.setQueryData(['merchantOrder', variables.id], data.data);
-      queryClient.setQueryData(['userOrder', variables.id], data.data);
-      showNotification('订单更新成功', 'success');
-    },
-    onError: (error) => {
-      showNotification(`更新订单失败: ${error.message}`, 'error');
+      if (data.code === 0) {
+        throw new Error(data.msg || '修改订单信息失败');
+      }
+      queryClient.invalidateQueries({ queryKey: ['orders'] });
+      queryClient.setQueryData(['order', variables.id], data.data);
+      if (data.data !== null) {
+        showNotification('修改订单信息成功', 'success');
+        navigate('/order')
+      }
     }
   });
 };
+
+// export const useDeleteOrder = () => {
+//   const queryClient = useQueryClient();
+//   const { showNotification } = useNotification();
+
+//   return useMutation({
+//     mutationFn: deleteOrder,
+//     onSuccess: (data, id) => {
+//       if (data.code === 0) {
+//         throw new Error(data.msg || '删除订单失败');
+//       }
+//       queryClient.invalidateQueries({ queryKey: ['orders'] });
+//       showNotification('订单删除成功', 'success');
+//     }
+//   });
+// };

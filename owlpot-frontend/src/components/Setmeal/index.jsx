@@ -62,7 +62,7 @@ const Setmeal = () => {
           value={searchCategory}
           onChange={(e) => setSearchCategory(e.target.value)}
         >
-          <option value="">请选择</option>
+          <option value="">全部</option>
           {/* 这里应根据实际分类动态生成选项，目前写死示例 */}
           <option value="人气套餐">人气套餐</option>
           <option value="商务套餐">商务套餐</option>
@@ -73,7 +73,7 @@ const Setmeal = () => {
           value={searchStatus}
           onChange={(e) => setSearchStatus(e.target.value)}
         >
-          <option value="">请选择</option>
+          <option value="">全部</option>
           <option value="启售">启售</option>
           <option value="停售">停售</option>
         </select>

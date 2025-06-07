@@ -58,18 +58,18 @@ public class CategoriesServiceImpl extends ServiceImpl<CategoriesMapper, Categor
 
     @Override
     public void saveCate(Categories category) {
-        Categories cate = getByName(category.getName());
+        Categories cate = getByName(category.getName(), category.getType());
         if (cate != null) {
             throw new RuntimeException(MessageConstant.ALREADY_EXISTS);
         }
         //设置账号的状态，默认正常状态 1表示正常 0表示锁定
-        category.setStatus(StatusConstant.ENABLE);
+        category.setStatus(StatusConstant.DISABLE);
         categoriesMapper.insert(category);
     }
 
-    public Categories getByName(String name) {
+    public Categories getByName(String name, Integer type) {
         QueryWrapper<Categories> wrapper = new QueryWrapper<>();
-        wrapper.eq("name", name);
+        wrapper.eq("name", name).eq("type", type);
         return categoriesMapper.selectOne(wrapper);
     }
 

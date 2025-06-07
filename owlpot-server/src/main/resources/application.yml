@@ -1,4 +1,6 @@
 spring.application.name: OwlpotServer
+server:
+  port: 8082
 # 数据库连接配置
 spring:
   datasource:

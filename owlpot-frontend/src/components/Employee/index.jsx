@@ -7,6 +7,7 @@ import Pagination from '../../components/common/Pagination';
 import ConfirmationModal from '../../components/common/ConfirmationModal';
 import { useNotification } from '../../components/common/NotificationContext';
 import './index.css';
+import { useSelector } from 'react-redux';
 
 const Employee = () => {
   const navigate = useNavigate();
@@ -14,6 +15,7 @@ const Employee = () => {
   const [searchName, setSearchName] = useState('');
   const [deleteModal, setDeleteModal] = useState({ isOpen: false, employee: null });
   const [statusModal, setStatusModal] = useState({ isOpen: false, employee: null });
+  const currenrId = useSelector(state => state.user.id)
 
   // 使用useSelect获取员工数据
   const employeesQuery = useSelect("employees", getEmployees);
@@ -145,25 +147,26 @@ const Employee = () => {
                 </td>
                 <td>{employee.updateTime}</td>
                 <td>
+                  {/* 添加条件判断来控制按钮的可用性 */}
                   <span
-                    className="operation"
-                    onClick={() => navigate(`/employee/edit/${employee.id}`)}
+                    className={`operation ${employee.id === currenrId ? 'disabled' : ''}`}
+                    onClick={employee.id === currenrId ? () => { } : () => navigate(`/employee/edit/${employee.id}`)}
                   >
-                    修改
+                    {employee.id === currenrId ? '不可修改' : '修改'}
                   </span>
                   &nbsp;&nbsp;|&nbsp;&nbsp;
                   <span
-                    className="operation"
-                    onClick={() => openStatusModal(employee)}
+                    className={`operation ${employee.id === currenrId ? 'disabled' : ''}`}
+                    onClick={employee.id === currenrId ? () => { } : () => openStatusModal(employee)}
                   >
-                    {employee.status === 1 ? '禁用' : '启用'}
+                    {employee.id === currenrId ? '不可操作' : (employee.status === 1 ? '禁用' : '启用')}
                   </span>
                   &nbsp;&nbsp;|&nbsp;&nbsp;
                   <span
-                    className="operation delete"
-                    onClick={() => openDeleteModal(employee)}
+                    className={`operation delete ${employee.id === currenrId ? 'disabled' : ''}`}
+                    onClick={employee.id === currenrId ? () => { } : () => openDeleteModal(employee)}
                   >
-                    删除
+                    {employee.id === currenrId ? '不可删除' : '删除'}
                   </span>
                 </td>
               </tr>
@@ -174,7 +177,6 @@ const Employee = () => {
 
       {employeesQuery.data && (
         <Pagination
-
           total={employeesQuery.data.total}
           pageSize={employeesQuery.pageSize}
           currentPage={employeesQuery.currentPage}
@@ -198,7 +200,6 @@ const Employee = () => {
         onConfirm={confirmToggleStatus}
         onCancel={closeStatusModal}
       />
-      <Outlet />
     </div>
   );
 };

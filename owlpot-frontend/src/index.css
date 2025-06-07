@@ -30,3 +30,8 @@ select {
   text-decoration: none !important;
   box-shadow: none !important;
 }
+
+textarea {
+  resize: none;
+  outline: none;
+}

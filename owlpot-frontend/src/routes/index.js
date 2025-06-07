@@ -83,13 +83,13 @@ const RouterConfig = () => {
           element: <AddEmployee />
         },
 
-
-        { path: '/data', element: <Data /> }
+        { path: '/data', element: <Data /> },
+        // 兜底路由
+        { path: '*', element: <NotFoundPage /> }
       ]
     },
 
-    // 兜底路由
-    { path: '*', element: <NotFoundPage /> }
+
   ]);
 };
 

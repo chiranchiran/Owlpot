@@ -64,7 +64,7 @@ const AddSetmeal = () => {
             value={category}
             onChange={handleCategoryChange}
           >
-            <option value="">请选择套餐分类</option>
+            <option value="">全部套餐分类</option>
             {/* 这里应根据实际分类动态生成选项，目前写死示例 */}
             <option value="人气套餐">人气套餐</option>
             <option value="商务套餐">商务套餐</option>

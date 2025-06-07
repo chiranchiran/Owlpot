@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import Pagination from '../common/Pagination';
 import { getCategories } from '../../api/category';
 import './category.css'; // 确保你有相应的CSS样式文件
 import AddModal from './AddModal';
-import { useDeleteCategory, useAddCategory, useUpdateCategory, useCategory } from '../../hooks/useCategory';
+import { useDeleteCategory, useUpdateCategory } from '../../hooks/useCategory';
 import { useNotification } from '../common/NotificationContext';
 import { useSelect } from '../../hooks/useSelect';
 import ConfirmationModal from '../common/ConfirmationModal';
@@ -14,6 +13,7 @@ const Category = () => {
   const [searchType, setSearchType] = useState('');
   const [deleteModal, setDeleteModal] = useState({ isOpen: false, category: null });
   const [statusModal, setStatusModal] = useState({ isOpen: false, category: null });
+  const [updateId, setUpdateId] = useState(null)
   const [comboModalVisible, setComboModalVisible] = useState(false)
   const [dishModalVisible, setDishModalVisible] = useState(false)
   const [updateDish, setUpdateDish] = useState(false)
@@ -44,6 +44,10 @@ const Category = () => {
   // 确认删除
   const confirmDelete = () => {
     if (deleteModal.category) {
+      if (deleteModal.category.status > 0) {
+        showNotification("已启用的分类无法删除！", "error")
+        return
+      }
       deleteMutation.mutate(deleteModal.category.id, {
         onSuccess: () => {
           closeDeleteModal();
@@ -81,8 +85,9 @@ const Category = () => {
       });
     }
   };
-  const handleUpdate = status => {
-    if (status > 0) {
+  const handleUpdate = category => {
+    setUpdateId(category.id)
+    if (category.status > 0) {
       setUpdateSetmeal(true)
       return;
     }
@@ -107,7 +112,7 @@ const Category = () => {
           value={searchType}
           onChange={(e) => setSearchType(e.target.value)}
         >
-          <option value="">请选择</option>
+          <option value="">全部</option>
           <option value={0}>菜品</option>
           <option value={1}>套餐</option>
         </select>
@@ -166,7 +171,7 @@ const Category = () => {
                 <td>
                   <span
                     className="operation"
-                    onClick={() => handleUpdate(category.id)}
+                    onClick={() => handleUpdate(category)}
                   >
                     修改
                   </span>
@@ -216,10 +221,10 @@ const Category = () => {
         onConfirm={confirmToggleStatus}
         onCancel={closeStatusModal}
       />
-      {dishModalVisible && <AddModal onClose={() => setDishModalVisible(false)} title="新建菜品分类" data={null} />}
-      {comboModalVisible && <AddModal onClose={() => setComboModalVisible(false)} title="新建套餐分类" data={null} />}
-      {updateDish && <AddModal onClose={() => setUpdateDish(false)} title="修改菜品分类" data={null} />}
-      {updateSetmeal && <AddModal onClose={() => setUpdateSetmeal(false)} title="修改套餐分类" data={null} />}
+      {dishModalVisible && <AddModal onClose={() => setDishModalVisible(false)} type={0} />}
+      {comboModalVisible && <AddModal onClose={() => setComboModalVisible(false)} type={1} />}
+      {updateDish && <AddModal onClose={() => setUpdateDish(false)} type={0} id={updateId} />}
+      {updateSetmeal && <AddModal onClose={() => setUpdateSetmeal(false)} type={1} id={updateId} />}
     </div>
   );
 };

@@ -28,7 +28,7 @@ import java.util.Map;
 @RequestMapping("/api/categories")
 public class CategoriesController {
     @Autowired
-    private CategoriesService CategoriesService;
+    private CategoriesService categoriesService;
     /**
      * 新增分类
      * @return
@@ -36,7 +36,7 @@ public class CategoriesController {
     @PostMapping
     public Result addCate(@RequestBody Categories Category){
         log.info("新增分类：{}",Category);
-        CategoriesService.saveCate(Category);
+        categoriesService.saveCate(Category);
         return Result.success();
     }
 
@@ -49,7 +49,7 @@ public class CategoriesController {
     @GetMapping
     public Result<PageResult> getCates(CategoryPageQueryDTO CategoryPageQueryDTO){
         log.info("分类分页查询，参数为：{}", CategoryPageQueryDTO);
-        PageResult pageResult = CategoriesService.pageQuery(CategoryPageQueryDTO);
+        PageResult pageResult = categoriesService.pageQuery(CategoryPageQueryDTO);
         return Result.success(pageResult);
     }
 
@@ -61,7 +61,7 @@ public class CategoriesController {
     @GetMapping("/{id}")
     public Result<Categories> getCate(@PathVariable Long id){
         log.info("根据id查询分类信息，id为：{}", id);
-        Categories Category = CategoriesService.getById(id);
+        Categories Category = categoriesService.getById(id);
         return Result.success(Category);
     }
     /**
@@ -73,7 +73,7 @@ public class CategoriesController {
     @DeleteMapping("/{id}")
     public Result deleteCate(@PathVariable Long id){
         log.info("删除分类，id为：{}", id);
-        CategoriesService.removeById(id);
+        categoriesService.removeById(id);
         return Result.success();
     }
     /**
@@ -84,9 +84,10 @@ public class CategoriesController {
     public Result<Categories> updateCate(@RequestBody Categories Category){
         log.info("编辑分类信息：{}", Category);
         if(Category.getName()==null){
+            categoriesService.updateById(Category);
             return Result.success();
         }
-        CategoriesService.updateById(Category);
-        return Result.success(CategoriesService.getById(Category.getId()));
+        categoriesService.updateById(Category);
+        return Result.success(categoriesService.getById(Category.getId()));
     }
 }
