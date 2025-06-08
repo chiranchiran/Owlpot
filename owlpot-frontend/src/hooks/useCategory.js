@@ -47,7 +47,8 @@ export const useCategory = (id) => {
         throw new Error(res.msg || '获取分类详情失败');
       }
       return res.data
-    }
+    },
+    enabled: !!id,
   });
 };
 

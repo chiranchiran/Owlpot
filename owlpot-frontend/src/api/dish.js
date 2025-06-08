@@ -19,8 +19,8 @@ export const getDishById = (id) => {
 export const deleteDish = (id) => {
   return http.delete(`/dishes/${id}`,);
 };
-export const deleteDishes = (params) => {
-  return http.delete(`/dishes`, params);
+export const deleteDishes = (ids) => {
+  return http.delete(`/dishes/batch?ids=${ids.join(',')}`);
 };
 
 // 添加菜品
@@ -32,9 +32,11 @@ export const addDish = (dishData) => {
 export const updateDish = (dishData) => {
   return http.put(`/dishes/${dishData.id}`, dishData);
 };
+//上传图片
 export const upImage = (file) => {
-  return fetch('your_image_upload_api', {
-    method: 'POST',
-    body: file
+  return http.post('/upload', file, {
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    }
   })
 }

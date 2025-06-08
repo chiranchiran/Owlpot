@@ -6,6 +6,7 @@ import com.owlpot.result.PageResult;
 import com.owlpot.result.Result;
 import com.owlpot.service.CategoriesService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +24,7 @@ import java.util.Map;
  * @author 池苒
  * @since 2025-06-02
  */
+@Schema(name = "分类相关", description = "分类")
 @Slf4j
 @RestController
 @RequestMapping("/api/categories")
@@ -33,6 +35,7 @@ public class CategoriesController {
      * 新增分类
      * @return
      */
+    @Operation(summary = "新增分类")
     @PostMapping
     public Result addCate(@RequestBody Categories Category){
         log.info("新增分类：{}",Category);
@@ -58,6 +61,7 @@ public class CategoriesController {
      * @param id
      * @return
      */
+    @Operation(summary = "根据id查询分类信息")
     @GetMapping("/{id}")
     public Result<Categories> getCate(@PathVariable Long id){
         log.info("根据id查询分类信息，id为：{}", id);
@@ -80,6 +84,7 @@ public class CategoriesController {
      * 编辑分类信息
      * @return
      */
+    @Operation(summary = "编辑分类信息")
     @PutMapping("/{id}")
     public Result<Categories> updateCate(@RequestBody Categories Category){
         log.info("编辑分类信息：{}", Category);

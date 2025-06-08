@@ -1,10 +1,12 @@
 package com.owlpot.controller.merchant;
 
+import com.owlpot.dto.DishAddDTO;
 import com.owlpot.dto.DishPageQueryDTO;
 import com.owlpot.entity.Dishes;
 import com.owlpot.result.PageResult;
 import com.owlpot.result.Result;
 import com.owlpot.service.DishesService;
+import com.owlpot.vo.DishAddVO;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,8 +32,9 @@ public class DishesController {
      * 新增菜品
      * @return
      */
+    @Operation(summary = "新增菜品")
     @PostMapping
-    public Result addDish(@RequestBody Dishes dish){
+    public Result addDish(@RequestBody DishAddDTO dish){
         log.info("新增菜品：{}",dish);
         dishesService.saveDish(dish);
         return Result.success();
@@ -55,10 +58,11 @@ public class DishesController {
      * @param id
      * @return
      */
+    @Operation(summary = "根据id查询菜品信息")
     @GetMapping("/{id}")
-    public Result<Dishes> getDish(@PathVariable Long id){
+    public Result<DishAddVO> getDish(@PathVariable Long id){
         log.info("根据id查询菜品信息，id为：{}", id);
-        Dishes dish = dishesService.getById(id);
+        DishAddVO dish = dishesService.getById(id);
         return Result.success(dish);
     }
     /**
@@ -78,9 +82,9 @@ public class DishesController {
      * @param
      */
 
-    @Operation(summary = "删除菜品")
-    @DeleteMapping
-    public Result deleteDishes(@RequestParam List<Long> ids){
+    @Operation(summary = "批量删除菜品")
+    @DeleteMapping("/batch")
+    public Result deleteDishes(@RequestParam("ids") List<Long> ids){
         log.info("删除菜品，id为：{}", ids);
         dishesService.removeByIds(ids);
         return Result.success();
@@ -90,13 +94,16 @@ public class DishesController {
      * @return
      */
     @PutMapping("/{id}")
-    public Result<Dishes> updateDish(@RequestBody Dishes dishgory){
-        log.info("编辑菜品信息：{}", dishgory);
-        if(dishgory.getName()==null){
-            dishesService.updateById(dishgory);
+    public Result<DishAddVO> updateDish(@RequestBody DishAddDTO dish){
+        log.info("编辑菜品信息：{}", dish);
+        if(dish.getName()==null){
+            Dishes dishes = new Dishes();
+            dishes.setId(dish.getId());
+            dishes.setStatus(dish.getStatus());
+            dishesService.updateById(dishes);
             return Result.success();
         }
-        dishesService.updateById(dishgory);
-        return Result.success(dishesService.getById(dishgory.getId()));
+        dishesService.updateDishById(dish);
+        return Result.success(dishesService.getById(dish.getId()));
     }
 }

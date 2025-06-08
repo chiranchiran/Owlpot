@@ -1,116 +1,118 @@
-.setmeal-management {
-  background-color: var(--background);
-  padding: 0 20px;
-}
+ .setmeal-management {
+   background-color: var(--background);
+   padding: 0 20px;
+ }
 
-#searchName2 {
-  margin-left: -65rem;
-}
 
-#searchCategory {
-  margin-left: -65rem;
-}
+ #searchName2 {
+   margin-left: -6rem;
+ }
 
-#searchStatus {
-  margin-left: -6rem;
-}
 
-.dish1 {
-  margin-left: -6.5rem;
-}
+ #searchCategory {
+   margin-left: -6rem;
+ }
 
-.dish2 {
-  margin-left: -4.5rem;
-}
+ #searchStatus {
+   margin-left: -6rem;
+ }
 
-.search-bar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-}
+ .dish1 {
+   margin-left: -6.5rem;
+ }
 
-.search-bar label {
-  color: var(--text);
-  margin-right: 10px;
-}
+ .dish2 {
+   margin-left: -4.5rem;
+ }
 
-.search-bar input {
-  padding: 8px 12px;
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  width: 200px;
-}
+ .search-bar {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   margin-bottom: 20px;
+ }
 
-.search-bar select {
-  padding: 8px 12px;
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  width: 150px;
-}
+ .search-bar label {
+   color: var(--text);
+   margin-right: 10px;
+ }
 
-.search-bar button {
-  padding: 8px 16px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  color: white;
-}
+ .search-bar input {
+   padding: 8px 12px;
+   border: 1px solid var(--border);
+   border-radius: 4px;
+   width: 200px;
+ }
 
-.search-button {
-  background-color: var(--primary);
-}
+ .search-bar select {
+   padding: 8px 12px;
+   border: 1px solid var(--border);
+   border-radius: 4px;
+   width: 150px;
+ }
 
-.batch-delete-button {
-  background-color: var(--danger);
-  color: white;
-  margin-right: -96px !important;
-}
+ .search-bar button {
+   padding: 8px 16px;
+   border: none;
+   border-radius: 4px;
+   cursor: pointer;
+   color: white;
+ }
 
-.add-setmeal-button {
-  background-color: var(--secondary);
-}
+ .search-button {
+   background-color: var(--primary);
+ }
 
-.setmeal-table {
-  width: 100%;
-  border-collapse: collapse;
-  background-color: var(--card-bg);
-  box-shadow: var(--shadow);
-}
+ .batch-delete-button {
+   background-color: var(--danger);
+   color: white;
+   margin-right: -96px !important;
+ }
 
-.setmeal-table th,
-.setmeal-table td {
-  border: 1px solid var(--border);
-  padding: 10px;
-  text-align: left;
-  color: var(--text);
-}
+ .add-setmeal-button {
+   background-color: var(--secondary);
+ }
 
-.setmeal-table th {
-  background-color: var(--primary-lighter);
-  color: var(--text-secondary);
-}
+ .setmeal-table {
+   width: 100%;
+   border-collapse: collapse;
+   background-color: var(--card-bg);
+   box-shadow: var(--shadow);
+ }
 
-.status-enabled {
-  color: var(--success);
-}
+ .setmeal-table th,
+ .setmeal-table td {
+   border: 1px solid var(--border);
+   padding: 10px;
+   text-align: left;
+   color: var(--text);
+ }
 
-.status-disabled {
-  color: var(--danger);
-}
+ .setmeal-table th {
+   background-color: var(--primary-lighter);
+   color: var(--text-secondary);
+ }
 
-.operation {
-  color: var(--text-secondary);
-  cursor: pointer;
-}
+ .status-enabled {
+   color: var(--success);
+ }
 
-.operation:hover {
-  color: var(--primary);
-}
+ .status-disabled {
+   color: var(--danger);
+ }
 
-.setmeal-image {
-  width: 32px;
-  height: 32px;
-  object-fit: cover;
-  border-radius: 4px;
-}
+ .operation {
+   color: var(--text-secondary);
+   cursor: pointer;
+ }
+
+ .operation:hover {
+   color: var(--primary);
+ }
+
+ .setmeal-image {
+   width: 32px;
+   height: 32px;
+   object-fit: cover;
+   border-radius: 4px;
+ }

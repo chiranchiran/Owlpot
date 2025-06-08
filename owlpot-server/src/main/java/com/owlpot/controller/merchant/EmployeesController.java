@@ -41,8 +41,6 @@ public class EmployeesController {
     private EmployeesService employeesService;
     @Autowired
     private JwtUtil jwtUtil;
-    @Autowired
-    private PasswordUtil passwordUtil;
     /**
      * 登录
      *
@@ -72,6 +70,7 @@ public class EmployeesController {
      * 新增员工
      * @return
      */
+    @Operation(summary = "新增员工")
     @PostMapping
     public Result addEmp(@RequestBody Employees employee){
         log.info("新增员工：{}",employee);
@@ -97,6 +96,7 @@ public class EmployeesController {
      * @param id
      * @return
      */
+    @Operation(summary = "根据id查询员工信息")
     @GetMapping("/{id}")
     public Result<Employees> getEmp(@PathVariable Long id){
         log.info("根据id查询员工信息，id为：{}", id);
@@ -119,6 +119,7 @@ public class EmployeesController {
      * 编辑员工信息
      * @return
      */
+    @Operation(summary = "编辑员工信息")
     @PutMapping("/{id}")
     public Result<Employees> updateEmp(@RequestBody Employees employee){
         log.info("编辑员工信息：{}", employee);

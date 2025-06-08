@@ -36,8 +36,6 @@ import java.util.List;
 public class EmployeesServiceImpl extends ServiceImpl<EmployeesMapper, Employees> implements EmployeesService {
     @Autowired
     private EmployeesMapper employeesMapper;
-    @Autowired
-    private PasswordUtil passwordUtil;
 
     @Override
     public PageResult pageQuery(EmployeePageQueryDTO emp) {
@@ -68,7 +66,7 @@ public class EmployeesServiceImpl extends ServiceImpl<EmployeesMapper, Employees
             throw new AccountNotFoundException(MessageConstant.ACCOUNT_NOT_FOUND);
         }
         try {
-            boolean flag = passwordUtil.matches(password, employee.getPassword());
+            boolean flag = PasswordUtil.matches(password, employee.getPassword());
         } catch (Exception e) {
             log.info("密码比对失败");
             throw new PasswordErrorException(MessageConstant.PASSWORD_ERROR);
@@ -92,13 +90,13 @@ public class EmployeesServiceImpl extends ServiceImpl<EmployeesMapper, Employees
         if (employee.getStatus() == StatusConstant.DISABLE) {
             throw new AccountLockedException(MessageConstant.ACCOUNT_LOCKED);
         }
-        boolean flag = passwordUtil.matches(employeeChangePwdDTO.getOldPassword(), employee.getPassword());
+        boolean flag = PasswordUtil.matches(employeeChangePwdDTO.getOldPassword(), employee.getPassword());
         if (!flag) {
             throw new PasswordErrorException(MessageConstant.PASSWORD_ERROR);
         }
         Employees employees = new Employees();
         employees.setId(id);
-        String changePwd = passwordUtil.encode(employeeChangePwdDTO.getNewPassword());
+        String changePwd = PasswordUtil.encode(employeeChangePwdDTO.getNewPassword());
         employees.setPassword(changePwd);
         employeesMapper.updateById(employees);
         log.info("密码修改成功");
@@ -117,7 +115,7 @@ public class EmployeesServiceImpl extends ServiceImpl<EmployeesMapper, Employees
             throw new RuntimeException(MessageConstant.ACCOUNT_EXIST);
         }
         //设置密码，默认密码123456
-        employee.setPassword(passwordUtil.encode(PasswordConstant.DEFAULT_PASSWORD));
+        employee.setPassword(PasswordUtil.encode(PasswordConstant.DEFAULT_PASSWORD));
         employeesMapper.insert(employee);
     }
 

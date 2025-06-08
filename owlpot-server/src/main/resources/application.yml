@@ -55,3 +55,11 @@ springdoc:
   api-docs:
     path: /swapper/api-docs      # API 文档路径
     enabled: true
+
+# 阿里云OSS配置
+aliyun:
+  oss:
+    endpoint: oss-cn-beijing.aliyuncs.com
+    access-key-id: your-access-key-id
+    access-key-secret: your-access-key-secret
+    bucket-name: your-bucket-name

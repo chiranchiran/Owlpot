@@ -22,6 +22,7 @@
         <velocity-engine-core.version>2.3</velocity-engine-core.version>
         <springdoc.version>2.2.0</springdoc.version>
         <spring-security-crypto.version>5.7.6</spring-security-crypto.version>
+        <aliyun-sdk-oss.version>3.15.1</aliyun-sdk-oss.version>
     </properties>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -84,8 +85,26 @@
                 <artifactId>spring-security-crypto</artifactId>
                 <version>${spring-security-crypto.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.aliyun.oss</groupId>
+                <artifactId>aliyun-sdk-oss</artifactId>
+                <version>${aliyun-sdk-oss.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
+    <repositories>
+        <repository>
+            <id>central</id>
+            <url>https://repo.maven.apache.org/maven2</url>
+        </repository>
+    </repositories>
+<!--    <mirrors>-->
+<!--        <mirror>-->
+<!--            <id>aliyunmaven</id>-->
+<!--            <mirrorOf>*</mirrorOf>-->
+<!--            <url>https://maven.aliyun.com/repository/public</url>-->
+<!--        </mirror>-->
+<!--    </mirrors>-->
     <modules>
         <module>owlpot-common</module>
         <module>owlpot-pojo</module>

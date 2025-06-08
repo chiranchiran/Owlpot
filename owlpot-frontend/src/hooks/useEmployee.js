@@ -49,7 +49,8 @@ export const useEmployee = (id) => {
         throw new Error(res.msg || '获取员工数据失败');
       }
       return res.data
-    }
+    },
+    enabled: !!id,
   });
 };
 

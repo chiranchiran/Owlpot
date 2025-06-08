@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/shop")
 public class ShopController {
+
     @GetMapping("/status")
     public Result getStatus() {
         log.info("获取店铺状态");

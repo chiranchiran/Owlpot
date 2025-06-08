@@ -21,7 +21,8 @@ export const useDish = (id) => {
         throw new Error(res.msg || '获取菜品数据失败');
       }
       return res.data
-    }
+    },
+    enabled: !!id,
   });
 };
 

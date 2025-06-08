@@ -9,7 +9,8 @@ import {
   getSetmealById,
   deleteSetmeal,
   addSetmeal,
-  updateSetmeal
+  updateSetmeal,
+  deleteSetmeals
 } from '../api/setmeal';
 import { useNavigate } from 'react-router-dom';
 
@@ -22,7 +23,8 @@ export const useSetmeal = (id) => {
         throw new Error(res.msg || '获取套餐数据失败');
       }
       return res.data
-    }
+    },
+    enabled: !!id,
   });
 };
 
@@ -67,12 +69,27 @@ export const useDeleteSetmeal = () => {
 
   return useMutation({
     mutationFn: deleteSetmeal,
-    onSuccess: (data, id) => {
+    onSuccess: (data) => {
       if (data.code === 0) {
         throw new Error(data.msg || '删除套餐失败');
       }
       queryClient.invalidateQueries({ queryKey: ['setmeals'] });
       showNotification('套餐删除成功', 'success');
+    }
+  });
+};
+export const useDeleteSetmeals = () => {
+  const queryClient = useQueryClient();
+  const { showNotification } = useNotification();
+
+  return useMutation({
+    mutationFn: deleteSetmeals,
+    onSuccess: (data) => {
+      if (data.code === 0) {
+        throw new Error(data.msg || '批量删除套餐失败');
+      }
+      queryClient.invalidateQueries({ queryKey: ['setmeals'] });
+      showNotification('批量套餐删除成功', 'success');
     }
   });
 };

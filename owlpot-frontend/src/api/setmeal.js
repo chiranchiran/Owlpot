@@ -14,6 +14,9 @@ export const getSetmealById = (id) => {
 export const deleteSetmeal = (id) => {
   return http.delete(`/setmeals/${id}`);
 };
+export const deleteSetmeals = (ids) => {
+  return http.delete(`/setmeals/?ids=${ids.join(',')}`);
+};
 
 // 添加套餐
 export const addSetmeal = (setmealData) => {

@@ -6,7 +6,7 @@ export const useUploadImage = () => {
     mutationFn: upImage,
     onSuccess: (data) => {
       if (data.code === 0) {
-        throw new Error(data.msg || '上传图片失败');
+        // throw new Error(data.msg || '上传图片失败');
       }
       queryClient.invalidateQueries({ queryKey: ['image'] });
     }

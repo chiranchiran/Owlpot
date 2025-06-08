@@ -15,9 +15,9 @@ const AddDish = () => {
   const [image, setImage] = useState(null); // 用于存储图片文件对象
   const [imageUrl, setImageUrl] = useState(null); // 用于存储后端返回的图片 URL
   const [description, setDescription] = useState('');
-  const mutation = useUploadImage()
+  const mutation = useUploadImage();
   const tasty = ['辣度', '温度', '忌口', '甜度'];
-  // 简化口味配置逻辑
+  // 简化口味配置逻辑，格式为 { name: '口味名称', values: ['值1', '值2'] }
   const [flavorConfigs, setFlavorConfigs] = useState([]);
 
   // 获取分类数据
@@ -47,9 +47,19 @@ const AddDish = () => {
   useEffect(() => {
     if (isEditMode && dishData) {
       setName(dishData.name);
-      setCategory(dishData.category);
+      setCategory(dishData.categoryId);
       setPrice(dishData.price);
-      setFlavorConfigs(dishData.flavors);
+      // 处理后端返回的 flavors 数据，转换为我们的 flavorConfigs 格式
+      const flavors = dishData.flavors || [];
+      const newFlavorConfigs = {};
+      flavors.forEach(flavor => {
+        if (!newFlavorConfigs[flavor.name]) {
+          newFlavorConfigs[flavor.name] = { name: flavor.name, values: [flavor.value] };
+        } else {
+          newFlavorConfigs[flavor.name].values.push(flavor.value);
+        }
+      });
+      setFlavorConfigs(Object.values(newFlavorConfigs));
       setImageUrl(dishData.image); // 假设后端返回的是图片 URL，直接设置到 imageUrl 中
       setDescription(dishData.description);
       setOriginalData(dishData); // 保存原始数据用于重置
@@ -69,44 +79,49 @@ const AddDish = () => {
   const handleAddFlavorConfig = () => {
     setFlavorConfigs([
       ...flavorConfigs,
-      { type: '', values: [] }
+      { name: '', values: [] }
     ]);
   };
 
   // 更新口味类型
   const handleFlavorTypeChange = (e, index) => {
     const updatedConfigs = [...flavorConfigs];
-    updatedConfigs[index].type = e.target.value;
+    updatedConfigs[index].name = e.target.value;
     setFlavorConfigs(updatedConfigs);
   };
 
   // 添加口味值
   const handleAddFlavorValue = (index, value) => {
     if (!value) return;
+    const selectedConfig = flavorConfigs[index];
+    if (!selectedConfig.name) return;
+
+    const { values } = selectedConfig;
+    if (values.length >= 4 || values.includes(value)) {
+      return;
+    }
 
     const updatedConfigs = [...flavorConfigs];
-    if (!updatedConfigs[index].values.includes(value)) {
-      updatedConfigs[index].values = [...updatedConfigs[index].values, value];
-      setFlavorConfigs(updatedConfigs);
-    }
+    updatedConfigs[index].values.push(value);
+    setFlavorConfigs(updatedConfigs);
   };
 
   // 删除口味值
-  const handleRemoveFlavorValue = (groupIndex, valueIndex) => {
+  const handleRemoveFlavorValue = (index, valueIndex) => {
     const updatedConfigs = [...flavorConfigs];
-    updatedConfigs[groupIndex].values.splice(valueIndex, 1);
+    updatedConfigs[index].values.splice(valueIndex, 1);
     setFlavorConfigs(updatedConfigs);
   };
 
   // 删除整个口味配置组
   const handleRemoveFlavorConfig = (index) => {
-    const updatedConfigs = flavorConfigs.filter((_, i) => i !== index);
+    const updatedConfigs = [...flavorConfigs];
+    updatedConfigs.splice(index, 1);
     setFlavorConfigs(updatedConfigs);
   };
 
   // 处理图片上传
   const handleImageUpload = (e) => {
-    debugger
     const file = e.target.files[0];
     if (!file) return;
     const errors = checkImg(file);
@@ -152,9 +167,11 @@ const AddDish = () => {
     if (price && (! /^\d{1,8}(\.\d{1,2})?$/.test(price) || parseFloat(price) <= 0))
       newErrors.price = '菜品价格格式有误';
 
-    if (description && ! /^[\u4e00-\u9fa5a-zA-Z0-9]{0,200}$/.test(description))
+    if (description && description.split('').length > 200) {
+      console.log(description)
+      debugger
       newErrors.description = '菜品描述过长（最多200字）';
-
+    }
     return Object.keys(newErrors).length === 0 ? null : newErrors;
   };
 
@@ -173,7 +190,7 @@ const AddDish = () => {
       return;
     }
 
-    let formData = { name, category, price, description, flavors: flavorConfigs };
+    let formData = { name, categoryId: category, price, description, flavors: flavorConfigs.map(config => config.values.map(value => ({ name: config.name, value }))).flat() };
     if (image) {
       const formDataForImage = new FormData();
       formDataForImage.append('image', image);
@@ -186,7 +203,7 @@ const AddDish = () => {
             updateMutation.mutate({ id, ...formData });
           } else {
             // 添加菜品
-            addMutation.mutate({ formData }, {
+            addMutation.mutate({ ...formData }, {
               onSuccess: () => {
                 if (andUp) {
                   // 保存并继续添加：清空表单
@@ -216,9 +233,19 @@ const AddDish = () => {
   const resetForm = () => {
     if (originalData) {
       setName(originalData.name);
-      setCategory(originalData.category);
+      setCategory(originalData.categoryId);
       setPrice(originalData.price);
-      setFlavorConfigs(originalData.flavors);
+      // 处理原始数据的 flavors 转换为我们的 flavorConfigs 格式
+      const flavors = originalData.flavors || [];
+      const newFlavorConfigs = {};
+      flavors.forEach(flavor => {
+        if (!newFlavorConfigs[flavor.name]) {
+          newFlavorConfigs[flavor.name] = { name: flavor.name, values: [flavor.value] };
+        } else {
+          newFlavorConfigs[flavor.name].values.push(flavor.value);
+        }
+      });
+      setFlavorConfigs(Object.values(newFlavorConfigs));
       setImageUrl(originalData.image);
       setDescription(originalData.description);
     }
@@ -285,14 +312,13 @@ const AddDish = () => {
               + 添加口味
             </button>
           </div>
-
           {flavorConfigs.map((config, index) => (
             <div key={index} className="flavor-config">
               <div className="flavor-header">
                 <select
                   name="type"
-                  value={config.type} // 绑定当前配置项的 type 值
-                  onChange={(e) => handleFlavorTypeChange(e, index)} // 选择时触发
+                  value={config.name}
+                  onChange={(e) => handleFlavorTypeChange(e, index)}
                 >
                   <option value="">请选择口味</option>
                   {tasty.map(item => (
@@ -301,9 +327,10 @@ const AddDish = () => {
                 </select>
                 <input
                   type="text"
-                  placeholder="添加口味选项"
+                  placeholder="添加口味选项(最多3个字)"
                   onKeyDown={(e) => {
                     if (e.key === 'Enter') {
+                      e.preventDefault();
                       handleAddFlavorValue(index, e.target.value);
                       e.target.value = '';
                     }
@@ -314,7 +341,7 @@ const AddDish = () => {
                       e.target.value = '';
                     }
                   }}
-                  maxLength={6}
+                  maxLength={3}
                 />
                 <button
                   type="button"
@@ -324,7 +351,6 @@ const AddDish = () => {
                   删除
                 </button>
               </div>
-
               <div className="flavor-values">
                 {config.values.map((value, valueIndex) => (
                   <div key={valueIndex} className="flavor-tag">
@@ -360,7 +386,7 @@ const AddDish = () => {
                     className="remove-image"
                     onClick={() => {
                       setImage(null);
-                      setImageUrl(null);
+                      setImageUrl(null)
                     }}
                   >
                     移除图片

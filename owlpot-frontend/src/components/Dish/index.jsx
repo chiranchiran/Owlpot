@@ -14,11 +14,11 @@ const Dish = () => {
   const { showNotification } = useNotification();
   const [params, setParams] = useState({ name: "", type: "", status: "" });
   const [category, setCategory] = useState([]);
-  const [deleteSingleModal, setDeleteSingleModal] = useState({ isOpen: false, dish: null }); // 单个删除模态框状态
-  const [deleteBatchModal, setDeleteBatchModal] = useState({ isOpen: false, dishes: [] }); // 批量删除模态框状态
+  const [deleteSingleModal, setDeleteSingleModal] = useState({ isOpen: false, dish: null });
+  const [deleteBatchModal, setDeleteBatchModal] = useState({ isOpen: false });
   const [statusModal, setStatusModal] = useState({ isOpen: false, dish: null });
-  const [isAllChecked, setIsAllChecked] = useState(false); // 新增全选状态
-  const [checkedIds, setCheckedIds] = useState([]); // 新增选中的id数组状态
+  const [isAllChecked, setIsAllChecked] = useState(false);
+  const [checkedIds, setCheckedIds] = useState([]);
 
   // 使用useSelect获取菜品数据
   const dishesQuery = useSelect("dishes", getDishes);
@@ -53,16 +53,16 @@ const Dish = () => {
   // 确认单个删除
   const confirmSingleDelete = () => {
     if (deleteSingleModal.dish.status > 0) {
-      showNotification("已启售的菜品不可删除", "error")
-      return
+      showNotification("已启售的菜品不可删除", "error");
+      return;
     }
+
     if (deleteSingleModal.dish) {
       const id = deleteSingleModal.dish.id;
       deleteSingleMutation.mutate(id, {
         onSuccess: () => {
           closeDeleteSingleModal();
-          setCheckedIds([]); // 删除成功后清空选中状态
-          setIsAllChecked(false);
+          setCheckedIds(prevIds => prevIds.filter(id => id !== deleteSingleModal.dish.id));
         },
       });
     }
@@ -70,22 +70,57 @@ const Dish = () => {
 
   // 打开批量删除确认对话框
   const openDeleteBatchModal = () => {
-    setDeleteBatchModal({ isOpen: true, dishes: dishesQuery.data?.records.filter(dish => checkedIds.includes(dish.id)) || [] });
+    if (checkedIds.length === 0) {
+      showNotification("请至少选择一个菜品", "warning");
+      return;
+    }
+
+    // 检查选中的菜品中是否有启售的
+    const selectedDishes = dishesQuery.data?.records.filter(dish =>
+      checkedIds.includes(dish.id)
+    ) || [];
+
+    const hasEnabledDishes = selectedDishes.some(dish => dish.status > 0);
+
+    if (hasEnabledDishes) {
+      showNotification("选中的菜品中有已启售的，不可删除", "error");
+      return;
+    }
+
+    setDeleteBatchModal({ isOpen: true });
   };
 
   // 关闭批量删除确认对话框
   const closeDeleteBatchModal = () => {
-    setDeleteBatchModal({ isOpen: false, dishes: [] });
+    setDeleteBatchModal({ isOpen: false });
   };
 
-  // 确认批量删除
+  // 确认批量删除 - 使用当前选中的ID
   const confirmBatchDelete = () => {
-    const ids = deleteBatchModal.dishes.map(item => item.id);
-    deleteBatchMutation.mutate(ids, {
+    if (checkedIds.length === 0) {
+      showNotification("没有选中任何菜品", "warning");
+      return;
+    }
+
+    // 再次确认选中的菜品中没有启售的（防止在打开对话框后状态改变）
+    const selectedDishes = dishesQuery.data?.records.filter(dish =>
+      checkedIds.includes(dish.id)
+    ) || [];
+
+    const hasEnabledDishes = selectedDishes.some(dish => dish.status > 0);
+
+    if (hasEnabledDishes) {
+      showNotification("选中的菜品中有已启售的，不可删除", "error");
+      closeDeleteBatchModal();
+      return;
+    }
+
+    deleteBatchMutation.mutate(checkedIds, {
       onSuccess: () => {
         closeDeleteBatchModal();
-        setCheckedIds([]); // 删除成功后清空选中状态
+        setCheckedIds([]);
         setIsAllChecked(false);
+        dishesQuery.refetch();
       },
     });
   };
@@ -121,8 +156,11 @@ const Dish = () => {
   const handleAllCheck = (e) => {
     const isChecked = e.target.checked;
     setIsAllChecked(isChecked);
+
     if (isChecked) {
-      setCheckedIds(dishesQuery.data?.records.map(dish => dish.id) || []);
+      // 只选中当前页的菜品
+      const currentPageIds = dishesQuery.data?.records.map(dish => dish.id) || [];
+      setCheckedIds(currentPageIds);
     } else {
       setCheckedIds([]);
     }
@@ -130,13 +168,28 @@ const Dish = () => {
 
   // 处理每行复选框的点击事件
   const handleRowCheck = (dishId, isChecked) => {
+    let newCheckedIds;
+
     if (isChecked) {
-      setCheckedIds([...checkedIds, dishId]);
+      newCheckedIds = [...checkedIds, dishId];
     } else {
-      setCheckedIds(checkedIds.filter(id => id !== dishId));
+      newCheckedIds = checkedIds.filter(id => id !== dishId);
     }
-    // 更新全选状态
-    setIsAllChecked(checkedIds.length === (dishesQuery.data?.records.length || 0));
+
+    setCheckedIds(newCheckedIds);
+
+    // 正确更新全选状态
+    const currentPageIds = dishesQuery.data?.records.map(dish => dish.id) || [];
+    const allChecked = currentPageIds.length > 0 &&
+      currentPageIds.every(id => newCheckedIds.includes(id));
+
+    setIsAllChecked(allChecked);
+  };
+
+  // 获取分类名称
+  const getCategoryName = (categoryId) => {
+    const found = category?.find(c => c.id === categoryId);
+    return found ? found.name : categoryId;
   };
 
   return (
@@ -148,13 +201,13 @@ const Dish = () => {
           id="searchName2"
           placeholder="请填写菜品名称"
           value={params.name}
-          onChange={(e) => setParams({ name: e.target.value })}
+          onChange={(e) => setParams({ ...params, name: e.target.value })}
         />
         <label htmlFor="searchCategory" className="dish1">菜品分类:</label>
         <select
           id="searchCategory"
           value={params.type}
-          onChange={(e) => setParams({ name: parseInt(e.target.value) })}
+          onChange={(e) => setParams({ ...params, type: e.target.value })}
         >
           <option value="">全部</option>
           {category && category.map(item => (
@@ -165,7 +218,7 @@ const Dish = () => {
         <select
           id="searchStatus"
           value={params.status}
-          onChange={(e) => setParams({ status: parseInt(e.target.value) })}
+          onChange={(e) => setParams({ ...params, status: e.target.value })}
         >
           <option value="">全部</option>
           <option value={1}>启售</option>
@@ -191,23 +244,29 @@ const Dish = () => {
         <tbody>
           {dishesQuery.isLoading ? (
             <tr>
-              <td colSpan="6">加载中...</td>
+              <td colSpan="8">加载中...</td>
             </tr>
           ) : dishesQuery.isError ? (
             <tr>
-              <td colSpan="6">加载失败</td>
+              <td colSpan="8">加载失败</td>
             </tr>
           ) : dishesQuery.data?.records.length === 0 ? (
             <tr>
-              <td colSpan="6">暂无数据</td>
+              <td colSpan="8">暂无数据</td>
             </tr>
           ) : (
             dishesQuery.data?.records.map(dish => (
               <tr key={dish.id}>
-                <td><input type="checkbox" onChange={(e) => handleRowCheck(dish.id, e.target.checked)} checked={checkedIds.includes(dish.id)} /></td>
+                <td>
+                  <input
+                    type="checkbox"
+                    onChange={(e) => handleRowCheck(dish.id, e.target.checked)}
+                    checked={checkedIds.includes(dish.id)}
+                  />
+                </td>
                 <td>{dish.name}</td>
                 <td><img src={dish.image} alt={dish.name} className="dish-image" /></td>
-                <td>{dish.categoryId}</td>
+                <td>{getCategoryName(dish.categoryId)}</td>
                 <td>¥{dish.price}</td>
                 <td>
                   {dish.status > 0 ? (
@@ -264,7 +323,9 @@ const Dish = () => {
       <ConfirmationModal
         isOpen={deleteBatchModal.isOpen}
         title="批量删除菜品"
-        message={deleteBatchModal.dishes.length > 0 ? `确定删除选中的${deleteBatchModal.dishes.length}个菜品吗？` : ""}
+        message={checkedIds.length > 0
+          ? `确定删除选中的${checkedIds.length}个菜品吗？`
+          : "没有选中任何菜品"}
         onConfirm={confirmBatchDelete}
         onCancel={closeDeleteBatchModal}
       />

@@ -28,15 +28,12 @@ const AddEmployee = () => {
   const [showUpConfirm, setShowUpConfirm] = useState(false);
   // 表单原始数据（用于编辑模式下的重置）
   const [originalData, setOriginalData] = useState(null);
-
   // 查询单个员工（编辑模式）
   const { data: employeeData } = useEmployee(id);
-
   // 添加员工Mutation
   const addMutation = useAddEmployee();
   // 更新员工Mutation
   const updateMutation = useUpdateEmployee();
-
   // 当获取到员工数据时填充表单
   useEffect(() => {
     if (isEditMode && employeeData) {
